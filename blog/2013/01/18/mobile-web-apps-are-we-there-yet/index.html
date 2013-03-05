@@ -1,0 +1,241 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Mobile Web Apps: Are We There Yet? - The Gas Leak</title>
+  <meta name="author" content="Joel Turnbull">
+
+  
+  <meta name="description" content="As a non-mac owner I remember seeing this promotional video from 37signals and feeling like I needed to buy a mac if I wanted to be a great Ruby &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://gaslight.github.com/octopress-blog/blog/2013/01/18/mobile-web-apps-are-we-there-yet/">
+  <link href="/octopress-blog/favicon.png" rel="icon">
+  <link href="/octopress-blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/octopress-blog/javascripts/modernizr-2.0.js"></script>
+  <script src="/octopress-blog/javascripts/ender.js"></script>
+  <script src="/octopress-blog/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/octopress-blog/atom.xml" rel="alternate" title="The Gas Leak" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/octopress-blog/">The Gas Leak</a></h1>
+  
+    <h2>The Gaslighter Blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/octopress-blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:gaslight.github.com/octopress-blog" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/octopress-blog/">Blog</a></li>
+  <li><a href="/octopress-blog/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Mobile Web Apps: Are We There Yet?</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-18T00:00:00-05:00" pubdate data-updated="true">Jan 18<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>As a non-mac owner I remember seeing <a class="c1" href="http://www.youtube.com/watch?v=Jh2OVJjbKUI">this promotional video</a> from 37signals and feeling like I needed to buy a mac if I wanted to be a great Ruby programmer or web designer. In Ruby’s culture there is a strong preference for Apple products.</p>
+<blockquote>
+<div>
+<p>“The great thing about Ruby on the Mac is that it just feels like they fit together.”</p>
+<p>— DHH</p>
+</div>
+</blockquote>
+<p>Because of this preference there is a lot of crossover between the Ruby and the iOS world</p>
+<div><img alt="image" src="http://media.tumblr.com/7baaa76ec668072af581605d65d769c5/tumblr_inline_mgtsgmxJZA1r9fv8b.jpg"/></div>
+<p>I own a Mac Book Pro and an iPhone but I don’t feel loyalty to these products. The reason I became a web developer is because I love open source software and, on the web, open source is king. While everyone else was pirating Photoshop, I was writing Python scripts in Gimp. I ran <a class="c1" href="http://en.wikipedia.org/wiki/List_of_Ubuntu_releases#Ubuntu_4.10_.28Warty_Warthog.29">Warty Warthog</a> on my PC. I enjoyed a good game of <a class="c1" href="http://www.tauniverse.com/">Total Annihilation</a>. And although Gmail isn’t open source, web apps like this give Linux, Windows, and OSX users a certain independence from their operating systems that I enjoy</p>
+<p>Apple’s iPhone and iPad market share is impressive and I accept that the potential to make money on these devices is compelling, but on personal projects I am most excited about developing on the web where everyone (sort of) can access my software</p>
+<p>So with the neckbeard sentiment out of the way, I want to share what I’ve learned so far about developing mobile web apps. As I see it, there are three levels of appy-ness</p>
+<h2>Level 1 - Make It Fit On The Screen</h2>
+<p>Just throw a responsive framework on your site to make it look great on any size screen! <a class="c1" href="https://twitter.com/t_crayford/status/290989695754719233">Okay, that didn’t work</a>. Except for the demo sites for these libraries, I haven’t seen a responsive website yet that could just use a CSS framework without any manual tweaking. It’s time to dig into <a class="c1" href="http://www.w3.org/TR/css3-mediaqueries/">CSS media queries</a> so that people get a good experience on their phones as well as a computer monitor</p>
+<p>Even on this very simple stage of mobileness, new developers are going to be surprised to find that laying out your HTML views for mobile isn’t trivial. Take a look at this <a class="c1" href="http://lanyrd.com/2011/bd11/sccwh/">presentation deck</a> for a good primer</p>
+<h2>Level 2 - Minimize the Effects of Connection Latency With Asynchronous UIs</h2>
+<p>This is where I get really passionate about the design of applications. Maybe it’s because I’m impatient and I like fast UIs. <em>Maybe it’s because I used Lotus Notes for 5 years, an application which after 23 years of development still blocks the entire UI when fetching an email, rending all Notes application unusable if you happen to be on some abysmal guest wireless connection while tunneling through a VPN server in Tampa.</em> Yeah, it’s probably that.</p>
+<p>When I try out mobile web apps, this is where I see the biggest problems. When I first looked at PhoneGap, the top featured product was <a class="c1" href="http://phonegap.com/app/untappd/">Untapped</a>. The screenshots look great, but it feels like you’re just tapping around a very pretty web page when you use it. Tap the bottom navigation and you’ll see a spinner followed by a complete refresh of the page. User expectations for a native app are that the UI is always responsive and available, even if it needs to do something like fetch remote data. A refresh is a break in the experience, and a dead giveaway of the traditional web request cycle. For more of these issues also see <a class="c1" href="http://www.sencha.com/blog/the-making-of-fastbook-an-html5-love-story/">Sencha’ Blog post on Fastbook</a> where they demonstrate several places where Facebook’s native app loses state and local data when switching views</p>
+<div><img alt="image" src="http://media.tumblr.com/045b778e0ae7cbd7a4fb67ccc805e90f/tumblr_inline_mgts9umhmZ1r9fv8b.png"/></div>
+<p>For a web app to feel responsive one needs to make a huge shift away from simply rendering web pages after an HTML request. This means more responsibility on the client is required: client-side template rendering, local data caching, and optimistic responses to user actions. My favorite article covering these ideas is still <a class="c1" href="http://alexmaccaw.com/posts/async_ui">this one from Alex Maccaw</a>. Also check out <a class="c1" href="http://cheeaun.com/blog/2012/03/how-i-built-hacker-news-mobile-web-app_26">the second post about the creation of the Hacker News Web App</a>. Chee Aun has an awesome implementation of the HTML5 Application Cache that only downloads new assets if the application version has changed</p>
+<div><img alt="image" src="http://media.tumblr.com/9356a9d3792574581959072087b6204c/tumblr_inline_mgtse6HnAp1r9fv8b.png"/></div>
+<p>For me, the technologies that enable these asynchronous UIs are the most exciting things in software development today. Frameworks like Backbone.js and Ember.js, push events via Server Sent Events and Websockets, and all those fancy CSS3 tricks make developing fast webapps possible</p>
+<h2>Level 3 - Platform Integration</h2>
+<p>It won’t be too tough to get your app to fit on that tiny mobile screen and you’ll be able to make a lightning fast web app using rich client technologies. But when it comes to platform integration we’re a little stuck. If you want to take a photo, use the GPS, or run your app outside Mobile Safari, you’ll need to hunker down with some native code.</p>
+<p>It seems that the current sweet spot for cross-platform mobile apps is a hybrid web / native app. A hybrid app uses a native code wrapper around HTML web views, so that the majority of the functionality can be shared across different platforms. In this way, you can update your application and avoid the bureaucracy of an app store approval process. You can then fall back on native code for smooth animations, native-looking navigation, and access to proprietary APIs. LinkedIn has <a class="c1" href="http://venturebeat.com/2012/05/02/linkedin-ipad-app-engineering/">been very public about their hybrid web app</a> and although Google hasn’t said much about the new Gmail and Maps apps, it is clear that they are using HTML for most of their views</p>
+<h2>Are We There Yet?</h2>
+<p>If you want to make mobile apps with no compromises, you’ll want a completely native application on whatever platform you choose. Have fun with your piles of money and great user experiences</p>
+<p>If you need a cross platform app, you’ll benefit from liberal use of web views to minimize the amount of native code required on each platform. This is the approach I would use to create a practical web application that needs to work today.</p>
+<p>As tempting as Apple’s native world is, if you dream of <a class="c1" href="http://developer.chrome.com/apps/first_app.html">Chrome Apps</a>, <a class="c1" href="http://en.wikipedia.org/wiki/Canvas_element">Web Canvases</a>, and <a class="c1" href="http://www.html5rocks.com/en/tutorials/appcache/beginner/">App Cache Manifests</a> like I do, you’ll be <a class="c1" href="http://37signals.com/svn/posts/3269-behind-the-speed-basecamp-mobile">pushing the boundaries of the mobile web</a>.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Joel Turnbull</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-18T00:00:00-05:00" pubdate data-updated="true">Jan 18<span>th</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://gaslight.github.com/octopress-blog/blog/2013/01/18/mobile-web-apps-are-we-there-yet/" data-via="" data-counturl="http://gaslight.github.com/octopress-blog/blog/2013/01/18/mobile-web-apps-are-we-there-yet/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/octopress-blog/blog/2013/01/17/gaslight-podcast-9-digital-doodles-with-ryan-arthur/" title="Previous Post: Gaslight Podcast #9: Digital Doodles with Ryan Arthur">&laquo; Gaslight Podcast #9: Digital Doodles with Ryan Arthur</a>
+      
+      
+        <a class="basic-alignment right" href="/octopress-blog/blog/2013/01/28/objective-cs-designated-initializer-pattern/" title="Next Post: Objective-C's Designated Initializer Pattern">Objective-C's Designated Initializer Pattern &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/02/08/9-lessons-web-designers-can-learn-from-painting-portraits/">9 Lessons Web Designers Can Learn from Painting Portraits</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/01/31/pi--rails--heroku--students--awesome/">(Pi + Rails + Heroku) * Students = Awesome</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/01/31/gaslight-podcast-10-corey-haines-via-codemash/">Gaslight Podcast #10: Corey Haines via CodeMash</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/01/28/objective-cs-designated-initializer-pattern/">Objective-C's Designated Initializer Pattern</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/01/18/mobile-web-apps-are-we-there-yet/">Mobile Web Apps: Are We There Yet?</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Joel Turnbull -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

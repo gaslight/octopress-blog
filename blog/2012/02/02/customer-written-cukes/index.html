@@ -1,0 +1,389 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Customer Written Cukes - The Gas Leak</title>
+  <meta name="author" content="Joel Turnbull">
+
+  
+  <meta name="description" content="&#8230;and why they&#8217;re awesome. Or not. On one of our more recent projects, we were given an entire suite of customer
+written Cucumber features &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://gaslight.github.com/octopress-blog/blog/2012/02/02/customer-written-cukes/">
+  <link href="/octopress-blog/favicon.png" rel="icon">
+  <link href="/octopress-blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/octopress-blog/javascripts/modernizr-2.0.js"></script>
+  <script src="/octopress-blog/javascripts/ender.js"></script>
+  <script src="/octopress-blog/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/octopress-blog/atom.xml" rel="alternate" title="The Gas Leak" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/octopress-blog/">The Gas Leak</a></h1>
+  
+    <h2>The Gaslighter Blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/octopress-blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:gaslight.github.com/octopress-blog" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/octopress-blog/">Blog</a></li>
+  <li><a href="/octopress-blog/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Customer Written Cukes</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-02T00:00:00-05:00" pubdate data-updated="true">Feb 2<span>nd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h3>&#8230;and why they&#8217;re awesome. Or not.</h3>
+
+<p>On one of our more recent projects, we were given an entire suite of customer
+written <a href="http://cukes.info/">Cucumber</a> features. We&#8217;ve toyed with Cucumber in the past, but this
+was the first time we&#8217;ve actually implemented Cukes on a customer project. I
+thought I&#8217;d take a few minutes and explain some of the completely awesome side
+effects as well as the downsides.</p>
+
+<h4>First: The awesome.</h4>
+
+<p>The cukes were very well written. The last time I experimented with Cucumber,
+web steps were still in vogue and I was ready to start where I had left off.
+Fortunately, <a href="https://twitter.com/superchris" title="@superchris">Chris Nelson</a> was there to keep me from going down that path.
+He explained that the cukes were supposed to be written at a much higher level
+and that the implementation of the steps were better suited to handling the
+interactions with the specific inputs. It&#8217;s a good thing he did, too, or else I
+would have made a mess of steps that weren&#8217;t going to be solid or reusable.</p>
+
+<p>Second, the cukes contained some business logic in <a href="http://cukes.info/cucumber/api/ruby/latest/Cucumber/Ast/Table.html">AST
+tables</a>
+that turned out to be really super awesome when the time to implement the logic
+came around. The logic revolved around meeting some criteria then recommending
+a possible solution or enhancement. <a href="https://twitter.com/superchris" title="@superchris">Chris</a> and <a href="https://twitter.com/st23am" title="@st23am">James</a>
+were pairing on the project at the time and James mentioned that the tables
+looked a lot like <a href="http://en.wikipedia.org/wiki/Decision_tree">decision trees</a>
+in disguise. The dynamic duo spent some time looking at Ruby implementations of
+tree logic then decided that the rules weren&#8217;t quite as complex as the existing
+solutions and moved ahead writing their own.</p>
+
+<p>That turned out to be a really, really big win for this project. <a href="https://twitter.com/superchris" title="@superchris">Chris</a>
+and <a href="https://twitter.com/st23am" title="@st23am">James Smith</a> created a base class to handle the rule and
+conditional attributes, then for each specific case, we create a subclass to
+match the specific answers to the persistence layer.</p>
+
+<p><strong>Sample feature, with table</strong></p>
+
+<pre><code>Feature: Replace common areas lighting with high efficacy fixtures
+  So that I know which energy efficiency improvements my property would benefit
+  from, as a property owner/manager, I see a list of recommended measures for
+  my property after completing the property questionnaire.
+
+  Scenario Outline: Replace common areas lighting with high efficacy fixtures
+    Given I have completed the property questionnaire
+    And the predominant lighting type of permanently installed lighting fixtures in common areas is &lt;lighting_type&gt;
+    And on average, the common area lighting fixtures were last replaced &lt;last_replaced&gt;
+    And common area lighting fixture replacement &lt;planned_in_scope&gt; part of the planned retrofit scope
+
+    When I view the recommended measures for the property
+    Then the system shows that the "Replace common areas lighting with high efficacy fixtures" measure is &lt;result&gt;
+
+  Examples:
+    | planned_in_scope | lighting_type         | last_replaced | result          |
+    | is               | LED                   |               | recommended     |
+    | is               | Flourescent           |               | recommended     |
+    | is               | Screw-in CFL          |               | recommended     |
+    | is               | Screw-in incandescent |               | recommended     |
+    | is               | Don't know            | &gt;= 10 yrs ago | recommended     |
+    | is               | Don't know            | &lt; 10 yrs ago  | recommended     |
+    | is not           | LED                   |               | not recommended |
+    | is not           | Flourescent           |               | not recommended |
+    | is not           | Screw-in CFL          |               | recommended     |
+    | is not           | Screw-in incandescent |               | recommended     |
+    | is not           | Don't know            | &gt;= 10 yrs ago | recommended     |
+    | is not           | Don't know            | &lt; 10 yrs ago  | not recommended |
+</code></pre>
+
+<p><strong>The base class:</strong></p>
+
+<pre><code data-language="ruby">module RecommendedMeasure
+  class Measure
+
+    attr_reader :property
+
+    def initialize(property)
+      @property = property
+    end
+
+    def to_s
+      "This is a sample. You should replace this."
+    end
+
+    private
+
+    def build_rules(data)
+      keys = data.shift
+      keys.pop
+      data.map do |datum|
+        criteria = {}.with_indifferent_access
+        result = datum.unshift
+        keys.each_with_index {|key, index| criteria[key] = datum[index] }
+        Rule.new(self, criteria, datum.last == "recommended")
+      end
+    end
+
+    def rules_file
+      self.class.name.underscore + ".rules"
+    end
+
+    def rules_text
+      File.read(File.join(File.dirname(__FILE__), "..", rules_file))
+    end
+
+    def rules_data
+      rules_data = Cucumber::Ast::Table.parse(rules_text, "", 0).raw
+    end
+
+    def match?
+      self.build_rules(rules_data).each do |rule|
+        return rule.result if rule.applies?
+      end
+      false
+    end
+  end
+end
+</code></pre>
+
+<p><strong>A subclass:</strong></p>
+
+<pre><code data-language="ruby">module RecommendedMeasure
+  class ReplaceToilets &lt; Measure
+    def to_s
+      "Replace toilets"
+    end
+
+    def section
+      "efficiency"
+    end
+
+    def gal_flush
+      property.efficiency_responses[:toilet_gpf]
+    end
+
+    def last_replaced
+      installed_before?(:toilet_year, 1992) ? "&lt; 1992" : "&gt;= 1992"
+    end
+  end
+end
+</code></pre>
+
+<h4>The not-so-awesome.</h4>
+
+<p>One of the negatives we&#8217;ve encountered is the cone of focus can sometimes
+become too narrow. As a developer, heads down working on the cukes, some of the
+details of the implementation can be missed. For example, a few of the features
+were passing for me, but that&#8217;s because I&#8217;d manipulated the state of the data
+being tested in the step definition. I&#8217;d forgotten that when the client was
+doing physical acceptance those actions wouldn&#8217;t be available to them. I had to
+implement a scenario to allow the client to change the data so they could
+produce the correct result. It&#8217;s a trivial step, but an important one to
+remember nonetheless.</p>
+
+<p>In this particular case, the test was that a program expired after a certain
+date. We&#8217;d already constructed an administrative section of the application,
+but because I made the changes programmatically in the cuke, my tests passed. I
+delivered the feature for testing and got a message in Campfire a few minutes
+later that made complete sense: I can&#8217;t test this one because I can&#8217;t change
+the date!</p>
+
+<h3>Cukes are a win!</h3>
+
+<p>Overall, I&#8217;m impressed with the process of developing features using customer
+written cukes. Our client gave us an excellent starting point and it&#8217;s
+something we&#8217;re trying to teach existing clients now as well. They aren&#8217;t for
+everyone, but when the client has domain knowledge and is able to convey that
+in clearly written steps, it&#8217;s a big, big win.</p>
+
+<p>I&#8217;ve started using cukes in my pet projects as well. The steps are easy enough
+to write and if you&#8217;re already doing integration specs with something like
+Capybara, it seems like a worthwhile step.</p>
+
+<p>Another real benefit is the generated output.
+<a href="https://www.relishapp.com/">Relish</a> is a site for open source projects tested
+with Cucumber to host their docs. Some of Cucumber&#8217;s <a href="https://www.relishapp.com/cucumber/cucumber/docs/tag-logic">own
+documentation</a> is
+generated with Cucumber! You can also find
+<a href="https://www.relishapp.com/rspec">Rspec</a> there as well.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Joel Turnbull</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-02T00:00:00-05:00" pubdate data-updated="true">Feb 2<span>nd</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://gaslight.github.com/octopress-blog/blog/2012/02/02/customer-written-cukes/" data-via="" data-counturl="http://gaslight.github.com/octopress-blog/blog/2012/02/02/customer-written-cukes/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/octopress-blog/blog/2011/10/13/notes-from-cincijs-october--couchdb/" title="Previous Post: Notes from @cincijs: October – CouchDB">&laquo; Notes from @cincijs: October – CouchDB</a>
+      
+      
+        <a class="basic-alignment right" href="/octopress-blog/blog/2012/03/27/real-views-with-draper/" title="Next Post: Real Views with Draper">Real Views with Draper &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/02/08/9-lessons-web-designers-can-learn-from-painting-portraits/">9 Lessons Web Designers Can Learn from Painting Portraits</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/01/31/pi--rails--heroku--students--awesome/">(Pi + Rails + Heroku) * Students = Awesome</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/01/31/gaslight-podcast-10-corey-haines-via-codemash/">Gaslight Podcast #10: Corey Haines via CodeMash</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/01/28/objective-cs-designated-initializer-pattern/">Objective-C's Designated Initializer Pattern</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/01/18/mobile-web-apps-are-we-there-yet/">Mobile Web Apps: Are We There Yet?</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Joel Turnbull -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

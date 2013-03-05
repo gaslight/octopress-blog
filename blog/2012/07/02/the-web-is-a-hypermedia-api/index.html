@@ -1,0 +1,249 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>The Web is a Hypermedia API - The Gas Leak</title>
+  <meta name="author" content="Joel Turnbull">
+
+  
+  <meta name="description" content="If you’re struggling to wrap your head around Hypermedia APIs, the first thing you need to understand is that you actively use one every day. Unless &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://gaslight.github.com/octopress-blog/blog/2012/07/02/the-web-is-a-hypermedia-api/">
+  <link href="/octopress-blog/favicon.png" rel="icon">
+  <link href="/octopress-blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/octopress-blog/javascripts/modernizr-2.0.js"></script>
+  <script src="/octopress-blog/javascripts/ender.js"></script>
+  <script src="/octopress-blog/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/octopress-blog/atom.xml" rel="alternate" title="The Gas Leak" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/octopress-blog/">The Gas Leak</a></h1>
+  
+    <h2>The Gaslighter Blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/octopress-blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:gaslight.github.com/octopress-blog" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/octopress-blog/">Blog</a></li>
+  <li><a href="/octopress-blog/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">The Web Is a Hypermedia API</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-02T00:00:00-04:00" pubdate data-updated="true">Jul 2<span>nd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>If you’re struggling to wrap your head around Hypermedia APIs, the first thing you need to understand is that you actively use one every day. Unless you were just handed a printout of this article, you are using one right now.</p>
+
+<h3>The Twilight Zone</h3>
+
+<p>Imagine that you live in an alternate dimension. You want to do some online shopping, and you have just received the latest Amazon.com client. You fire it up and do a product search for “Three’s Company DVDs”. All of the product data comes down the wire. We have the names, brands, and prices of the twenty most relevent “Three’s Company” related products. After the client gets the data, it goes to work! It builds all of the urls and applies them onto all of the product data that came down, so that you can click on the DVD set that you like. Wait, no! The client doesn’t do that!</p>
+
+<p>To anybody with a passing amount of knowledge about how to build a website, the situation above seems ridiculous. In this dimension, we have a web browser that knows how to read a representation of data called HTML, and render and activate the links that the server provides in that document. The server defines where the resources reside, so naturally, the server provides the links to those resources.</p>
+
+<h3>We Didn’t Know Any Better</h3>
+
+<p>My alternate universe attempted to describe a scenario in which the web that we know and love operates like an API that I designed last year. I think a lot of people design APIs in this way, i.e. they do what they need to do right now. They provide some locations on their server that allow a third party to read or write to some resources. That doesn’t sound so bad, right? An API totally needs to do those things, but it needs to do a little bit more. APIs are by definition publicly available, they invite themselves into a realm of of other people’s stuff that you no longer have total control over. As such, some forethought needs to be given to design up front. APIs that only provide the resources, and not the locations to next resource, are taking the short view and are introducing big problems for the future evolution of your system.</p>
+
+<p>The fatal flaw will smack you soon enough. When you rolled out the API, you promised all of the people, in your meticulously crafted documentation, that the resource they want is available at location x. They, in turn, built clients around that promise, and now you badly, badly need to change that location to y. Go ahead and update that documentation and see how much it helps. Best case scenario is that you built the client, and now you have to get everybody to update it before you can get back to doing anything productive on your end. To quote <a href="https://twitter.com/#!/steveklabnik">Steve Klabnik</a>, “People are really good at screwing themselves over in the long term”.</p>
+
+<h3>Robots Like to Surf The Web Too</h3>
+
+<p>So what’s the solution? Let’s bring it back to the web to understand how we can address this. Grandma has a home page with a link people can click on to see pictures of all of her perfect grandchildren. Six months later Grandma finds a cheaper site for hosting those pictures and wants to put them there instead. As Grandma’s faithful webmaster, you update the link on her homepage to point to the new photo sharing site. Does the whole world need to update their web client now? Of course not, the link to the next resource is defined and provided by the server in the HTML it sends down, and that link just changed. I think the best short description of an API I’ve found is in Ryan Tomako’s article <a href="http://tomayko.com/writings/rest-to-my-wife">“How I Explained REST to My wife”</a>. Paraphrasing, an API is an interface for machines to use the web just like people do. APIs that don’t employ hypermedia are basically jerks that are saying to clients, “I know where to go next, but I’m going to make you guess how to get there anyway.” With a Hypermedia API you force the client to know the location of exactly one resource, “Home”.</p>
+
+<p>So applying Hypermedia to APIs provides solutions, but also really transforms the very nature of the interaction into something much cooler. APIs whose resources link to other resources become “engines of application state”. Every resource exposes it’s current state, and the paths that you can take to create, interact with, and shape it. When an API describes to you how to interact with it, clients can be designed in a static way, reactively handling changes from the server.</p>
+
+<h3>Hypermedia APIs in Practice</h3>
+
+<p>So how do you go about acheiveing this? Unfortunatley, I have little practical experience to share. I understand a few things. People who talk about REST, talk about nouns and verbs. All APIs provide the nouns, Hypermedia APIs provide the verbs too. In addition to the data the APIs traditionally provide, at every step of the way they need to describe, with links, 1) where to start 2) where you are, and 3) where you can go next.</p>
+
+<p>There are definitely some best practices around things like content negotation and media types that you can read up on, but I gather from <a href="https://twitter.com/#!/cdmwebs">Chris Moore</a> that it’s still the Wild West for Hypermedia design. Apparently making more effective use of HTTP Headers is good design, and you want to give some thought about your content format, because types like JSON and XML are not implicitly hypermedia aware, i.e. they have no baked in concept of links.</p>
+
+<h3>Acknowledgments</h3>
+
+<p>While I’m talking about what I do know, maybe it’s a good time to mention where I learned it. The impetus for all of this was <a href="https://vimeo.com/44520801">this talk</a> given by Steve Klabnik at the most recent <a href="http://cincyrb.com/">Cincy.rb</a> meetup, just a couple weeks ago. Steve’s done a ton of writing and speaking around this subject, just google him or pick up his evolving book, <a href="http://designinghypermediaapis.com/">“Designing Hypermedia APIs”</a>. The talk is an overview of what Hypermedia APIs are, why they’re important, and their philosophical implications. Thankfully, Steve gives us permissions to stop worrying and fighting about REST and focus on cool stuff. For the Rails folks, Steve recommends two gems, <a href="https://github.com/josevalim/active_model_serializers/">active_model_serializers</a> and <a href="https://github.com/spastorino/rails-api">rails-api</a></p>
+
+<p>I also highly recommend this <a href="https://vimeo.com/20781278">video presentation</a> by Jon Moore, in which he actually demos a static client. If this link between Hypermedia APIs and the web as we know it is still nebulous, this video will solidify it for you. I really like the way Jon explains things and boils down the dissertation language, translating a block of Fielding into “You do stuff by reading pages and then either following links or submitting forms.”.</p>
+
+<p>For some deep reading, I’ve heard people recommend <a href="http://www.amazon.com/Building-Hypermedia-APIs-HTML5-Node/dp/1449306578">“Building Hypermedia APIs with HTML5 and Node”</a>. Don’t worry if you’re not a node programmer. I also want to give a shout to <a href="https://twitter.com/#!/cdmwebs/">Chris Moore</a>, who’s been our resident Hypermedia API pusher, and <a href="https://twitter.com/#!/SeanTAllen">Sean Allen</a>, who’s been harping to me about REST since before harping about REST was cool.</p>
+
+<h3>Conclusion</h3>
+
+<p>If you need inspiration in understanding hypermedia APIs, look no further than the web. The architecture and protocols for the web were designed by really smart guys who already figured this stuff out a long time ago and can be applied universally. Once I started viewing APIs through the lense of the web I know and love, it actually seems completely wrong to design one in any other way.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Joel Turnbull</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-02T00:00:00-04:00" pubdate data-updated="true">Jul 2<span>nd</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://gaslight.github.com/octopress-blog/blog/2012/07/02/the-web-is-a-hypermedia-api/" data-via="" data-counturl="http://gaslight.github.com/octopress-blog/blog/2012/07/02/the-web-is-a-hypermedia-api/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/octopress-blog/blog/2012/06/22/what-ive-learned-from-third-party-javascript/" title="Previous Post: What I've Learned from Third-Party JavaScript">&laquo; What I've Learned from Third-Party JavaScript</a>
+      
+      
+        <a class="basic-alignment right" href="/octopress-blog/blog/2012/07/09/adding-a-share-by-email-button-to-your-tumblr-posts/" title="Next Post: Adding a Share by Email Button to Your Tumblr Posts ">Adding a Share by Email Button to Your Tumblr Posts  &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/02/08/9-lessons-web-designers-can-learn-from-painting-portraits/">9 Lessons Web Designers Can Learn from Painting Portraits</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/01/31/pi--rails--heroku--students--awesome/">(Pi + Rails + Heroku) * Students = Awesome</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/01/31/gaslight-podcast-10-corey-haines-via-codemash/">Gaslight Podcast #10: Corey Haines via CodeMash</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/01/28/objective-cs-designated-initializer-pattern/">Objective-C's Designated Initializer Pattern</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/01/18/mobile-web-apps-are-we-there-yet/">Mobile Web Apps: Are We There Yet?</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Joel Turnbull -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

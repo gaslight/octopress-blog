@@ -1,0 +1,494 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>(Pi + Rails + Heroku) * Students = Awesome - The Gas Leak</title>
+  <meta name="author" content="Joel Turnbull">
+
+  
+  <meta name="description" content="Background Over the course of the past two school years, my colleague Rob Biedenharn and I have been working with Tom “Coach” Brinkmann’s students &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://gaslight.github.com/octopress-blog/blog/2013/01/31/pi--rails--heroku--students--awesome/">
+  <link href="/octopress-blog/favicon.png" rel="icon">
+  <link href="/octopress-blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/octopress-blog/javascripts/modernizr-2.0.js"></script>
+  <script src="/octopress-blog/javascripts/ender.js"></script>
+  <script src="/octopress-blog/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/octopress-blog/atom.xml" rel="alternate" title="The Gas Leak" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/octopress-blog/">The Gas Leak</a></h1>
+  
+    <h2>The Gaslighter Blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/octopress-blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:gaslight.github.com/octopress-blog" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/octopress-blog/">Blog</a></li>
+  <li><a href="/octopress-blog/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">(Pi + Rails + Heroku) * Students = Awesome</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-31T00:00:00-05:00" pubdate data-updated="true">Jan 31<span>st</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img style="width: 100%" src="http://media.tumblr.com/c0ba81d84eab0abef18a386253cc50da/tumblr_inline_mhg9mxCWxt1qz4rgp.png" alt="image"/></p>
+
+<h2 id="background">Background</h2>
+
+<p>Over the course of the past two school years, my colleague <a href="http://rabiedenharn.tumblr.com/">Rob Biedenharn</a> and I have been working with <a href="http://coachbrinkmann.tumblr.com/">Tom “Coach” Brinkmann</a>’s students at <a href="http://www.littlemiamischools.com/school_home.aspx?schoolid=1">Little Miami High School</a>, attempting to teach them Web development using Ruby on Rails to aid in their participation in <a href="http://www.bpa.org/">Business Professionals of America</a> competitions and to provide them with skills very much in demand locally.</p>
+
+<p>We supplied the students with <a href="http://coachbrinkmann.tumblr.com/day/2012/12/05">all the usual links</a> to facilitate self-guided learning on Windows PCs but it quickly became evident that we were facing two challenges:</p>
+
+<ol><li><p>Providing the students a development environment similar to what they will encounter in a professional setting.</p></li>
+<li><p>Maintaining student engagement.</p></li>
+</ol><p>After much trial and error, constrained primarily by the school’s existing Windows PC labs and no capital to change that fact, we were unable to avoid the fact that there is no substitute for a Unix-based operating system for hosting Rails projects.</p>
+
+<p>Having a development environment that closely resembles the production environment builds the developer’s competance and confidence in dealing with production system administration issues. Arguably, apps deployed to <a href="http://www.heroku.com/">Heroku</a> (a key component of the exercise below) are hosted in anything but a typical Linux environment. Nevertheless, despite Heroku’s best efforts (and we <em>LOVE</em> Heroku) most Rails apps running in the wild are hosted on “traditional” Linuxes.</p>
+
+<p>The ability to stand-up a development system for minimal cost was crucial to overcoming the second constraint above. This fact has been proven recently as more than 50 of Coach Brinkmann&#8217;s students, from Freshman to Seniors, created and deployed at least one Rails app to Heroku, and most completed two or more.</p>
+
+<p>Seeing an app run locally was interesting to the students. However deploying it to the Web and sharing it with family, friends and classmates who entered data from their computers and smart devices went far beyond interesting. The Raspberry Pi running an Open Source operating system (Debian Linux in our case) met that criteria perfectly.</p>
+
+<p>Below is the exercise that was recently assigned to each of Coach Brinkmann’s classes. Students were given 70 minutes of classroom time to complete it. Rob and I made ourselves available for assistance two evenings, and Rob went in once during normal school hours. At last report nearly all students had successfully completed their demo app and most had created at  least one other app of their own design. The fact that several students had an aptitude for creating Web apps was not lost on us.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<ul><li>You’ll need (to have access to) a Mac computer. If you’ve devised a mean of completing the steps below on a Windows PC then by all means <a href="mailto:bill@gaslight.co">email me!</a> With minimal modification, you can run this demo from an existing Linux PC but as a Linux user we trust you to already know this! :)</li>
+<li>Basic knowledge about <a href="http://linuxcommand.org/lts0020.php">command line navigation</a> in OSX or Linux will aid in comprehension of this guide.</li>
+<li>If you don’t already have one, you’ll need to <a href="https://api.heroku.com/signup">sign up for a Heroku account</a>.</li>
+</ul><h2 id="before-we-begin">Before We Begin…</h2>
+
+<p>If you don’t have a Pi, <a href="http://www.mcmelectronics.com/product/83-14421">get one</a>! If you have one but don’t have the operating system installed, grab this image and follow these instructions using a Mac or Linux computer that has an SD card reader embedded or attached:</p>
+
+<ol><li><p>Insert a <a href="http://www.amazon.com/gp/product/B007QOX5AU/ref=as_li_qf_sp_asin_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=B007QOX5AU&amp;linkCode=as2&amp;tag=billbarnettco-20">16GB SD card</a> in your Mac computer.</p></li>
+<li><p>Download <a href="http://dl.dropbox.com/u/1275806/rpi.img.gz">this disk image file</a>.</p></li>
+<li><p>Open a terminal window and change directory to the location into which you downloaded the disk image file above. Then expand the disk image file using this command:</p>
+
+<pre><code data-language="shell">gunzip rpi.img.gz</code></pre></li>
+<li><p>Enter this command to locate your SD card:</p>
+
+<pre>diskutil list</pre></li>
+<li><p>Run the command below to unmount but not eject your SD card. Note that the question mark (?) is the disk number which will be specific to your system.</p>
+
+<pre>diskutil unmountDisk /dev/disk?</pre></li>
+<li><p>Copy the disk image to your SD card by running the command below carefully substituting in the disk number obtained in the step above. Note that you will need run this command in the same directory where you downloaded and expanded the disk image file.</p>
+
+<pre>dd if=rpi.img bs=1m of=/dev/rdisk?</pre></li>
+</ol><p>There! You’re all set to proceed.</p>
+
+<p><strong>SECURITY WARNING!!</strong></p>
+
+<p>The disk image above contains ssh public keys for both Rob and me. This enables us to gain “emergency” access to a student’s system. If you do not wish for Rob or me to have access to your system you will need to run the following command on the system:</p>
+
+<pre>rm /home/pi/.ssh/authorized_keys</pre>
+
+<p><strong>WARNING!!!</strong>
+If you’re going to mess up, here are the likely culprits!</p>
+
+<ul><li>Your Pi needs Internet access to complete these tasks. Is the Ethernet cable plugged in?</li>
+<li>You’ll need to be patient! Don’t just start typing in commands and then hitting enter repeatedly. Wait for each command to finish running before proceeding.</li>
+<li>As an addendum to the previous tip, read the output returned after running each command and LOOK FOR ALL ERRORS.</li>
+<li>If there are errors, look for typos in the command you just entered. The last command you ran can be accessed by hitting the up arrow (ꜛ) key.</li>
+<li>Again, computers excel at reproducing errors. They’re junk in, junk out! Be careful you have entered each command exactly as it appears in the instructions below.</li>
+</ul><h2>1. Get Pi &amp; Login</h2>
+
+<p>Connect the Raspberry Pi to a monitor, keyboard, mouse, and network and plug in the power.</p>
+
+<pre>Username: pi
+Password: raspberry</pre>
+
+<p>Start the GUI</p>
+
+<pre>startx</pre>
+
+<h2>2. Start Terminal Session</h2>
+
+<p>Double click the LXTerminal icon on the desktop to open the terminal window. Enter the command below and look for the “Projects” directory.</p>
+
+<pre>ls</pre>
+
+<p>If no “Projects” directory make one and change into it:</p>
+
+<pre>mkdir -p Projects
+cd Projects</pre>
+
+<h2>3. Generate Skeleton Rails App</h2>
+
+<p>Enter the following command.</p>
+
+<pre>rails new grandchildren</pre>
+
+<p>Sit back and watch the magic of Ruby-on-Rails as a new (but empty) project is created in the Projects directory.</p>
+
+<pre>cd grandchildren
+rails server</pre>
+
+<p>Double click the Chromium browser link on the desktop. Visit the address: <a href="http://localhost:3000/">http://localhost:3000/</a>. (This link will only work if you’re reading these instructions on your Pi.)</p>
+
+<p>Once you’ve verified that the empty site displays properly (“Welcome aboard” will appear at the top of the page) you need to stop the server by hitting CTRL-C in the LXTerminal window.</p>
+
+<h2>4. Generate Resources &amp; Database</h2>
+
+<p><strong>STOP!</strong> Type the following line on the command line <strong>BUT DO NOT</strong> hit enter until the instructor or assistant has validated there are no errors/typos!</p>
+
+<pre>rails generate scaffold Offspring name state children:integer grandchildren:integer</pre>
+
+<p>Now run this command.</p>
+
+<pre>rake db:create db:migrate</pre>
+
+<p><strong>IF</strong> the migration fails, read the error message carefully. If you can fix things, just redo the migration part as the database file will already have been created.</p>
+
+<pre>rake db:migrate</pre>
+
+<p>Restart the server:</p>
+
+<pre>rails server</pre>
+
+<p>Refresh your browser. (And no change… but wait!)</p>
+
+<h2>5. User Experience!</h2>
+
+<p>Now visit:  <a href="http://localhost:3000/offsprings">http://localhost:3000/offsprings</a></p>
+
+<p>Enter a first record!</p>
+
+<p>Enter your paternal grandparents’ last name, first name and the state in which they had their kids. How many children did they have and how many grandchildren do they have?</p>
+
+<p>After creating that offspring record, hit “Back” (the link, not the browser button) to return to the list which now has one record.</p>
+
+<p>Then create the record for your maternal grandparents.</p>
+
+<p>Now that you can see a couple records, let’s get this application ready to deploy to the internet on <a href="http://www.heroku.com/">Heroku</a>.</p>
+
+<h2>6. Preparing to Deploy to Heroku</h2>
+
+<p>Install the Heroku Toolbelt on your Pi. This takes a while so we will let it run in a separate window as we edit some other files locally. After opening a new LXTerminal window, run:</p>
+
+<pre>wget -qO- <a href="https://toolbelt.heroku.com/install-ubuntu.sh"><a href="https://toolbelt.heroku.com/install-ubuntu.sh">https://toolbelt.heroku.com/install-ubuntu.sh</a></a> | sh</pre>
+
+<p>That’s “hyphen, Q, capital O, hyphen.”</p>
+
+<h2>7. Opening Emacs to Edit Files</h2>
+
+<p>There are just a few changes that need to be made in order to deploy your application to the Heroku service.</p>
+
+<ul><li>The database locally is SQLite3, but Heroku only supports PostgreSQL.</li>
+<li>The default index.html file needs to be removed.</li>
+<li>The Offspring list should be the default page for the application.</li>
+</ul><p>Let’s take these one at a time.</p>
+
+<p>Open Emacs (shortcut on the desktop) and choose “File&#160;» Open” and find the “Gemfile” in the project root which is Projects/grandchildren</p>
+
+<p>Where you see the line:</p>
+
+<pre>gem 'sqlite3'</pre>
+
+<p>We are going to change this to use SQLite3 in development and test environments (which are local to your Raspberry Pi) and PostgreSQL on production (which will be at Heroku).</p>
+
+<pre><code data-language="ruby">group :development, :test do
+  gem 'sqlite3'
+end
+
+group :production do
+  gem 'pg', require: false
+end
+</code></pre>
+
+<p>When you’re done making your changes, save them by choosing “File&#160;» Save” from the menu.</p>
+
+<p>We can’t build the pg gem on the Pi so we have to re-run the bundle install avoiding production.</p>
+
+<p><strong>IF</strong> you are in the wrong directory, change to the right one with:</p>
+
+<pre>cd ~/Projects/grandchildren</pre>
+
+<p>Then run this bundle command:</p>
+
+<pre>bundle install --without production</pre>
+
+<p>Go back to the command line and remove the index file.</p>
+
+<pre>rm public/index.html</pre>
+
+<p>Edit Rail’s routing file using Emacs choosing “File&#160;» Open” and selecting the “routes.rb” file within the config directory. Find the line:</p>
+
+<pre><code data-language="ruby"># root :to =&gt; 'welcome#index'</code></pre>
+
+<p>Change it to:</p>
+
+<pre><code data-language="ruby">root :to =&gt; 'offsprings#index'</code></pre>
+
+<p>Note that there are two (2) changes:</p>
+
+<ul><li>the ‘#’ at the beginning (which comments out the rest of the line) is removed</li>
+<li>‘welcome’ is replaced with ‘offsprings’</li>
+</ul><h2>8. To Heroku!</h2>
+
+<p>Replace the <strong>bold</strong> text below with your personal email address and name.</p>
+
+<pre>git init .
+git config --global user.email "**you@example.com**"
+git config --global user.name "**Your Name**"
+heroku login
+heroku keys:add</pre>
+
+<p>If you receive this message:</p>
+
+<pre>Could not find an existing public key.
+Would you like to generate one? [Yn]</pre>
+
+<p><strong>JUST HIT ENTER!</strong></p>
+
+<p>Then proceed with:</p>
+
+<pre>heroku apps:create --addons heroku-postgresql:dev</pre>
+
+<p>You will receive a response similar to:</p>
+
+<pre>Creating desolate-eyrie-5848... done, stack is cedar
+Adding heroku-postgresql:dev to desolate-eyrie-5848... done
+<a href="http://desolate-eyrie-5848.herokuapp.com/"><a href="http://desolate-eyrie-5848.herokuapp.com/">http://desolate-eyrie-5848.herokuapp.com/</a></a> | git@heroku.com:desolate-eyrie-5848.git
+Git remote heroku added</pre>
+
+<p>The output displays your application’s new URL, in the case above it is: <a href="http://desolate-eyrie-5848.herokuapp.com/."><a href="http://desolate-eyrie-5848.herokuapp.com/.">http://desolate-eyrie-5848.herokuapp.com/.</a></a> Your application will have some other name similar in format to “word-another-9999.”</p>
+
+<p>Next, commit your code (copy it up to your “production” site):</p>
+
+<pre>git add .
+git commit -m "this is my first commit EVAR"
+git push heroku master
+heroku run rake db:migrate
+heroku restart</pre>
+
+<p>Go to your bright shiny new Web app (the URL returned in the step above)!</p>
+
+<h2>9. Done? Logout and Shutdown!</h2>
+
+<p>Once you’ve entered some data in your new app and all the proper authorities have inspected your app for correctness simply enter the following command in the terminal window:</p>
+
+<pre>sudo /sbin/shutdown -h now</pre>
+
+<p>When the screen is blank AND ONLY when the screen is blank you may disconnect your power supply and remove your SD card.</p>
+
+<hr><h2 id="some-troubleshooting-tips">Some troubleshooting tips:</h2>
+
+<p>After making a change to your code:</p>
+
+<pre>git commit -am "your commit message"</pre>
+
+<p>After every single change you make to the code on your local system you’ll need to redeploy to Heroku:</p>
+
+<pre>git push heroku master</pre>
+
+<p>The app will be automatically (re)started so no need to run a separate ‘heroku restart’ command like was needed when a migration was run.</p>
+
+<h2 id="the-nuclear-option">The Nuclear Option!</h2>
+
+<p>If all else fails issue the command below and start again from Step #3:</p>
+
+<pre>cd ..
+rm -fr ~/Projects/grandchildren</pre>
+
+<p>Or a tactical strike to restart at Step #4:</p>
+
+<pre>rails destroy scaffold Offspring</pre>
+
+<p>If you run into problems with db:migrate or db:create, you can try this command:</p>
+
+<pre>rake db:reset</pre>
+
+<p>This will attempt to recreate the database file but should that fail, simply enter these two commands:</p>
+
+<pre>rm -f db/development.sqlite3 test.sqlite3
+rake db:create db:migrate</pre>
+
+<h2 id="wrap-up">Wrap-up</h2>
+
+<p>If you’re not the slightest bit curious about the magical commands you entered completing this tutorial then you’re done. Just remember yes, I would like fries with that. :)</p>
+
+<p><strong>However</strong> if you are curious then by all means I encourage you to fire up your Pi, login and explore. Your assignments are:</p>
+
+<ul><li><p>What is the purpose of this command? <code>man ls</code></p></li>
+<li><p>If there’s no manual entry for the <code>rails</code> command and I can use <code>rails --help</code> to get help for the rails command, what command can I use to determine which “version” of rails I’m currently running?</p></li>
+<li><p>What’s so special about the <code>root</code> user?</p></li>
+</ul><p>Most of all, have fun and let <a href="http://rabiedenharn.tumblr.com/">Rob</a> or <a href="mailto:bill@gaslight.co">me</a> know if we can be of any help!</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">agilous</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-31T00:00:00-05:00" pubdate data-updated="true">Jan 31<span>st</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://gaslight.github.com/octopress-blog/blog/2013/01/31/pi--rails--heroku--students--awesome/" data-via="" data-counturl="http://gaslight.github.com/octopress-blog/blog/2013/01/31/pi--rails--heroku--students--awesome/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/octopress-blog/blog/2013/01/31/gaslight-podcast-10-corey-haines-via-codemash/" title="Previous Post: Gaslight Podcast #10: Corey Haines via CodeMash">&laquo; Gaslight Podcast #10: Corey Haines via CodeMash</a>
+      
+      
+        <a class="basic-alignment right" href="/octopress-blog/blog/2013/02/08/9-lessons-web-designers-can-learn-from-painting-portraits/" title="Next Post: 9 Lessons Web Designers Can Learn from Painting Portraits">9 Lessons Web Designers Can Learn from Painting Portraits &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/02/08/9-lessons-web-designers-can-learn-from-painting-portraits/">9 Lessons Web Designers Can Learn from Painting Portraits</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/01/31/pi--rails--heroku--students--awesome/">(Pi + Rails + Heroku) * Students = Awesome</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/01/31/gaslight-podcast-10-corey-haines-via-codemash/">Gaslight Podcast #10: Corey Haines via CodeMash</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/01/28/objective-cs-designated-initializer-pattern/">Objective-C's Designated Initializer Pattern</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/01/18/mobile-web-apps-are-we-there-yet/">Mobile Web Apps: Are We There Yet?</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Joel Turnbull -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

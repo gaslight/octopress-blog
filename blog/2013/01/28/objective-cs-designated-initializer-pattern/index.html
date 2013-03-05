@@ -1,0 +1,295 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Objective-C's Designated Initializer Pattern - The Gas Leak</title>
+  <meta name="author" content="Joel Turnbull">
+
+  
+  <meta name="description" content="Out of the box in Objective-C you can initialize an instance of a class by calling alloc and init on it. Alloc allocates memory for the instance, and &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://gaslight.github.com/octopress-blog/blog/2013/01/28/objective-cs-designated-initializer-pattern/">
+  <link href="/octopress-blog/favicon.png" rel="icon">
+  <link href="/octopress-blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/octopress-blog/javascripts/modernizr-2.0.js"></script>
+  <script src="/octopress-blog/javascripts/ender.js"></script>
+  <script src="/octopress-blog/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/octopress-blog/atom.xml" rel="alternate" title="The Gas Leak" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/octopress-blog/">The Gas Leak</a></h1>
+  
+    <h2>The Gaslighter Blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/octopress-blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:gaslight.github.com/octopress-blog" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/octopress-blog/">Blog</a></li>
+  <li><a href="/octopress-blog/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Objective-C's Designated Initializer Pattern</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-28T00:00:00-05:00" pubdate data-updated="true">Jan 28<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Out of the box in Objective-C you can initialize an instance of a class by
+  calling alloc and init on it.</p>
+
+<script src="https://gist.github.com/joelturnbull/4635006.js"></script>
+
+<p>Alloc allocates memory for the instance, and init gives it&#8217;s instance
+  variables it&#8217;s initial values. Both return pointers to the new
+  instance, hence the method chain. In this case, unless init was
+  re-implemented in the Party class, any instance variables in the party
+  instance were set to 0, or the zero pointer otherwise known as
+  nil.</p>
+
+<p>That&#8217;s no good. I am of the opinion that we should always strive to
+  create complete objects, i.e. objects who never have nil values for their
+  instance variables. In Objective-C there&#8217;s even a better reason for
+  doing this. in Objective-C a message sent to nil is silently ignored. An
+  unexpected nil value could create a debugging nightmare for
+  you.</p>
+
+<p>So how do we do initialize the variables? Here&#8217;s one way.</p>
+
+<script src="https://gist.github.com/joelturnbull/4634990.js"></script>
+
+<p>But that&#8217;s terrible. There&#8217;s danger in setting properties after
+  the fact. The user could fail to set the state of a vital instance variable,
+  and as the class designer, we&#8217;re not being good citizens. I can&#8217;t
+  really put it any better than Kent Beck does in &#8220;Smalltalk Best
+  Practice Patterns&#8221;.</p>
+
+<p>&#8220;what is the first thing you want to know about a class, once you’ve
+  decided it may do what you want it to do?  The first question is “what does
+  it take to create an instance?”  As a class provider, you’d like the answer
+  to this question to be as simple as possible. With the style described above,
+  you have to track down references to the class and read the code before you
+  get an inkling of how to create a useable instance.  If the code is complex,
+  it may take a while before you figure out what is required and what is
+  optional in creating an instance.&#8221;</p>
+
+<p>As class designers, we want to make sure there is method to represent each
+  valid way to create an instance. Beck describes the pattern as the
+  &#8220;Complete Creation Method&#8221;, Objective-C calls it
+  &#8220;Designated Initializer&#8221;.</p>
+
+<p>Maybe in the domain of our example, a party can be created and have a
+  default date if none is provided, and can have no attendees initially, but it
+  really must have a location or it just doesn&#8217;t make sense to create
+  it.</p>
+
+<script src="https://gist.github.com/joelturnbull/4634985.js"></script>
+
+<p>It could be there are times it makes sense to initialize the other values,
+  date and attendees. If we provided the protocol to do so the Party.h class
+  interface might look like this.</p>
+
+<script src="https://gist.github.com/joelturnbull/4634977.js"></script>
+
+<p>There are the four valid ways you can create a party. The trick is that only
+  one of these methods really sets the instance variables at the end of the
+  day. That method is called the Designated Initializer, and all other
+  initializers defer to it, directly or indirectly. Take a look at the
+  implementation.</p>
+
+<script src="https://gist.github.com/joelturnbull/4634948.js"></script>
+
+<p>In Party, <code>initWithLocation:date:attendees:</code> is the Designated Initializer. It
+  has parameters for the most important and frequently used instance variables
+  of Party. It is called from all of the other initializer methods. Those
+  methods make use of shared default settings where values are not passed
+  in.</p>
+
+<p>It is also possible that initializers could call initializers other than the
+  Designated Initializer to achieve the same effect. <code>initWithLocation:</code> could
+  defer to <code>initWithLocation:date:</code>  which would defer to
+  <code>initWithLocation:date:attendees:</code>. Regardless of whether <code>initWithLocation:</code>
+  defers to <code>initWithLocation:date:attendees:</code> directly or indirectly, all rounds
+  lead to the Designated Initializer.</p>
+
+<p>The Designated Initializer gives us a central point where modifications to
+  instance creation can happen, giving us the most control over how instances
+  are initialized. At the end of the deferment chain, there is only one method
+  that is responsible for setting the initial state of the object, and a
+  complete object comes out every time.</p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">joelturnbull</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-28T00:00:00-05:00" pubdate data-updated="true">Jan 28<span>th</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://gaslight.github.com/octopress-blog/blog/2013/01/28/objective-cs-designated-initializer-pattern/" data-via="" data-counturl="http://gaslight.github.com/octopress-blog/blog/2013/01/28/objective-cs-designated-initializer-pattern/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/octopress-blog/blog/2013/01/18/mobile-web-apps-are-we-there-yet/" title="Previous Post: Mobile Web Apps: Are We There Yet?">&laquo; Mobile Web Apps: Are We There Yet?</a>
+      
+      
+        <a class="basic-alignment right" href="/octopress-blog/blog/2013/01/31/gaslight-podcast-10-corey-haines-via-codemash/" title="Next Post: Gaslight Podcast #10: Corey Haines via CodeMash">Gaslight Podcast #10: Corey Haines via CodeMash &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/02/08/9-lessons-web-designers-can-learn-from-painting-portraits/">9 Lessons Web Designers Can Learn from Painting Portraits</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/01/31/pi--rails--heroku--students--awesome/">(Pi + Rails + Heroku) * Students = Awesome</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/01/31/gaslight-podcast-10-corey-haines-via-codemash/">Gaslight Podcast #10: Corey Haines via CodeMash</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/01/28/objective-cs-designated-initializer-pattern/">Objective-C's Designated Initializer Pattern</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/01/18/mobile-web-apps-are-we-there-yet/">Mobile Web Apps: Are We There Yet?</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Joel Turnbull -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

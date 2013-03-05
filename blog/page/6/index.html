@@ -1,0 +1,920 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>The Gas Leak</title>
+  <meta name="author" content="Joel Turnbull">
+
+  
+  <meta name="description" content="I recently latched on to a tweet thread that was originated by Michael Guterl (@mguterl), in which he expressed his frustration with view helpers and &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://gaslight.github.com/octopress-blog/blog/page/6/">
+  <link href="/octopress-blog/favicon.png" rel="icon">
+  <link href="/octopress-blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/octopress-blog/javascripts/modernizr-2.0.js"></script>
+  <script src="/octopress-blog/javascripts/ender.js"></script>
+  <script src="/octopress-blog/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/octopress-blog/atom.xml" rel="alternate" title="The Gas Leak" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/octopress-blog/">The Gas Leak</a></h1>
+  
+    <h2>The Gaslighter Blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/octopress-blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:gaslight.github.com/octopress-blog" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/octopress-blog/">Blog</a></li>
+  <li><a href="/octopress-blog/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/octopress-blog/blog/2012/03/27/real-views-with-draper/">Real Views With Draper</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-27T00:00:00-04:00" pubdate data-updated="true">Mar 27<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I recently latched on to a tweet thread that was originated by Michael Guterl (@mguterl), in which he expressed his frustration with view helpers and erb in rails. The frustration was echoed by others, and being somewhat new to Rails, I can&#8217;t say that I&#8217;ve personally felt much pain first hand, but&#8217;s my impression from the the get-go, is that erb templates seem to get ugly quickly, and helpers aren&#8217;t properly object oriented.</p>
+
+<p>On the first count, I can&#8217;t much fault erb for getting ugly. Those little  are powerful, you can&#8217;t really blame the tool for providing you all the rope you need to hang yourself with. I&#8217;m kind of intrigued by the idea of logic-less templates though, in a masochistic kind of way, but maybe that&#8217;s an investigation for another blog post.</p>
+
+<p>On the lack of object orientation, I&#8217;m intrigued. This seems wrong, but what is the pain point here exactly?</p>
+
+<p>During the course of the thread, Chris Nelson (@superchris) mentioned he had been working with the Draper gem on a project and it had so far seemed like a win. The idea of Draper is to provide real ruby class between the template and the model where presentation concerns can reside. A view class, rather than a helper. I decided to give it a try.</p>
+
+<p>My starting point was to seek out an erb template on a production project that was getting particularly ugly with logic, and see if Draper could help me clean it up. I wanted to see how much I could do with helpers, and then if an OO view could improve upon that.</p>
+
+<h3>Getting Started</h3>
+
+<p>I watched the Draper RailsCast. Installing the gem, I got a generator that I could feed an existing model class. It generated a decorator class associated to that model in a new app/decorators/ directory. The class looks like this.</p>
+
+<pre><code data-language="ruby">class CallReportSummaryDecorator &lt; ApplicationDecorator
+   decorates :call_report_summary
+</code></pre>
+
+<p>The Decorator is a design pattern that &#8220;attach(es) additional responsibilities to an object dynamically&#8221;. Wrapper, or Presenter is another term. Our Draper decorator is a view. It adds a layer of view related code, and delegates everything else to the model it wraps.</p>
+
+<p>I instantiate the new class in the controller, that here used to return a collection of CallReportSummary objects. CallReportSummary(s) calculate and compile some metrics, and the index page displays a table of these metrics with a row for each summary.</p>
+
+<pre><code data-language="ruby">def index
+  @current_tab = "Statements"
+  @summaries = 
+    @users.collect { |user| 
+      CallReportSummaryDecorator.new( CallReportSummary.new(user, @date_range))}
+end 
+</code></pre>
+
+<p>The controller now returns a collection of those objects wrapped in decorators, but the app behaves as it always has. That&#8217;s because the decorator is automatically delegating all calls to the established model through method missing. This is kind of an interesting divergence from the gang of four implementation of the decorator, which get&#8217;s it&#8217;s methods by subclassing the object it decorates.</p>
+
+<h3>Usage</h3>
+
+<p>So how do we use it?</p>
+
+<p>Consider the following piece of code that renders user data from a report summary object into a table field:</p>
+
+<pre><code data-language="ruby">&lt;td&gt;&lt;%= summary.display_name %&gt;&lt;%= ghost_icon(summary.user) %&gt;&lt;/td&gt;
+</code></pre>
+
+<p>With a helper we could clean it up a little like:</p>
+
+<pre><code data-language="ruby">&lt;td&gt;&lt;%= display_user(summary) %&gt;&lt;/td&gt;
+</code></pre>
+
+<p>But that&#8217;s where things get screwy with helpers. Maybe a functional programmer can set me straight on this someday, but it seems more suitable for display_user to be method of the summary, as opposed to a function that acts on it.</p>
+
+<pre><code data-language="ruby">&lt;td&gt;&lt;%= summary.display_user %&gt;&lt;/td&gt;
+</code></pre>
+
+<p>Regardless of your preference there, the fact remains that there&#8217;s no intuitive way to structure gobs of helper code, in the way that standard Ruby OOP can provide.</p>
+
+<p>So, if you don&#8217;t like the helper, your next option is to put the display_user method on the model, where it doesn&#8217;t belong. Views of a model are different than the model, and you should have the capacity to view a model in different ways. Draper provides that capacity where Rails doesn&#8217;t. With decorators, you can leave the model alone, and implement display_user in a view that wraps the model. Then, you can turn around and implement display_user again as many different times, in as many different views.</p>
+
+<p>The Draper decorator has access to the model it decorates through @model, and to all helper functions through the h. proxy. That includes ones you&#8217;ve defined, and standard Rails ones like link_to and content_tag.</p>
+
+<p>So the implementation in the decorator just becomes:</p>
+
+<pre><code data-language="ruby">def display_user
+  @model.display_name + h.ghost_icon( @model.user )
+end
+</code></pre>
+
+<p>I guess the lesson I learned here is that Draper, to me, is not so much about cleaning up templates. That can be done with helpers and partials. So I decided to investigate more the use of Draper as a tool for good OO design.</p>
+
+<h3>Good Design</h3>
+
+<p>That user data rendering code was taken from this view that renders a table with a row for each report summary returned by the controller.</p>
+
+<pre><code data-language="ruby">&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;User&lt;/th&gt;
+      &lt;th&gt;Clicks&lt;/th&gt;
+      &lt;th&gt;Calls&lt;/th&gt;
+      &lt;th&gt;Convs&lt;/th&gt;
+      &lt;th&gt;Cost&lt;/th&gt;
+      &lt;th&gt;Cost/Click&lt;/th&gt;
+      &lt;th&gt;Cost/Call&lt;/th&gt;
+      &lt;th&gt;Click-To-Call&lt;/th&gt;
+      &lt;th&gt;&lt;input type="checkbox" name="check_all" id="check_all" value="all"/&gt;&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;% @summaries.each do |summary| %&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;%= summary.display_name %&gt;&lt;%= ghost_icon(summary.user) %&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;%= format_number(summary.total_clicks) %&gt;&lt;/td&gt; 
+      &lt;td&gt;&lt;%= format_number(summary.total_calls) %&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;%= format_number(summary.total_conversions) %&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;%= format_microcents(summary.total_customer_cost) %&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;%= format_microcents(summary.average_customer_cpc)  %&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;%= format_microcents(summary.cost_per_call)  %&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;%= format_percentage(summary.calls_per_click)  %&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;input type="checkbox" name='send_summary[]' id='send-&lt;%= summary.id %&gt;' value="&lt;%= summary.id %&gt;" class="send_summary" /&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;% end %&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+</code></pre>
+
+<p>Each report row contains a checkbox that when checked and submitted, will render that single report summary object into an email statement and send it off to that particular client. The data rendered in that email statement is different from the data rendered in the above administrator&#8217;s view:</p>
+
+<pre><code data-language="ruby">&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Total Amount&lt;/th&gt;
+      &lt;th&gt;Impressions&lt;/th&gt;
+      &lt;th&gt;Clicks&lt;/th&gt;
+      &lt;th&gt;Cost/Click&lt;/th&gt;              
+      &lt;th&gt;Calls&lt;/th&gt;
+      &lt;th&gt;Convs&lt;/th&gt;
+      &lt;th&gt;Cost/Contact&lt;/th&gt;
+      &lt;th&gt;Click-to-Contacts&lt;/th&gt;
+      &lt;th&gt;Average Position&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;%= format_microcents(@summary.total_customer_cost) %&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;%= number_with_delimiter(@summary.total_impressions.to_i) %&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;%= format_number(@summary.total_clicks) %&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;%= format_microcents(@summary.cost_per_click) %&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;%= format_number(@summary.total_calls) %&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;%= format_number(@summary.total_conversions) %&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;%= format_microcents(@summary.cost_per_call) %&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;%= format_percentage(@summary.calls_per_click) %&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;%= number_with_precision(@summary.average_pos, :precision =&gt; 2) %&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+&lt;/table&gt;
+</code></pre>
+
+<p>Hence, a scenario in which a particular model is displayed in two different ways. The driving idea here is that the template should not also be the view. The template should be concerned primarily with styling and markup, not with choosing the data to be displayed. We have a view decorator now that can determine that. With that in mind, my Draper-fied tables became:</p>
+
+<pre><code data-language="ruby">&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+     &lt;th&gt;User&lt;/th&gt;
+      &lt;% table_view.table_headers.each do | table_header | %&gt;
+        &lt;th&gt;&lt;%= table_header %&gt;&lt;/th&gt;
+      &lt;% end %&gt;
+     &lt;th&gt;&lt;input type="checkbox" name="check_all" id="check_all" value="all"/&gt;&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+  &lt;% @summaries.each do |summary| %&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;%= summary.display_user %&gt;&lt;/td&gt;
+      &lt;% summary.attributes.each do |attribute| %&gt;
+        &lt;td&gt;&lt;%= summary.render_attribute(attribute) %&gt;&lt;/td&gt;
+      &lt;% end %&gt;
+      &lt;td&gt;&lt;input type="checkbox" name='send_summary[]' id='send-&lt;%= summary.id %&gt;' value="&lt;%= summary.id %&gt;" class="send_summary" /&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;% end %&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+</code></pre>
+
+<p>And the email:</p>
+
+<pre><code data-language="ruby">&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+    &lt;% table_view.table_headers.each do | table_header | %&gt;
+      &lt;th&gt;&lt;%= table_header %&gt;&lt;/th&gt;
+    &lt;% end %&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+    &lt;% summary.attributes.each do |attribute| %&gt;
+      &lt;td&gt;&lt;%= summary.render_attribute(attribute) %&gt;&lt;/td&gt;
+    &lt;% end %&gt;
+    &lt;/tr&gt;
+ &lt;/thead&gt;
+</code></pre>
+
+
+
+<p>Note that the replacement looping code is identical between the two views. The difference is in how table_headers and attributes are defined in the Draper decorators that wrap the summary before it&#8217;s either 1) displayed to an admin screen or 2) rendered into an client email.</p>
+
+<p>Previously, our decorator was called CallReportSummaryDecorator, the name provided by the decorator generator. My inclination, now that we have two wrappers decorating the same model, is to rename it more appropriately to what it is, i.e. CallReportSummaryAppTableView. And then, to have a corresponding CallReportSummaryEmailTableView.</p>
+
+<p>Since each table header matches up with a piece of data, to me it makes sense to define a hash in each decorator that provides the configuration for each table.</p>
+
+<p>In CallReportSummaryAppTableView:</p>
+
+<pre><code data-language="ruby">def column_attribute_map
+  { 
+    "Clicks" =&gt; :total_clicks,
+    "Calls" =&gt; :total_calls,
+    "Convs" =&gt; :total_conversions,
+    "Cost" =&gt; :total_customer_cost,
+    "Cost/Click" =&gt; :average_customer_cpc,
+    "Cost/Call" =&gt; :cost_per_call,
+    "Click-To-Call" =&gt; :calls_per_click,
+  }
+end 
+</code></pre>
+
+<p>In CallReportSummaryEmailTableView:</p>
+
+<pre><code data-language="ruby">def column_attribute_map
+  {
+    "Total Amount" =&gt; :total_customer_cost,
+    "Impressions" =&gt; :total_impressions,
+    "Clicks" =&gt; :total_clicks,
+    "Cost/Click" =&gt; :cost_per_click,
+    "Calls" =&gt; :total_calls,
+    "Cost/Call" =&gt; :cost_per_call,
+    "Click-to-Contacts" =&gt; :calls_per_click,
+    "Average Position" =&gt; :average_pos,
+  }
+end
+</code></pre>
+
+<p>table_headers and attributes are methods that access that configuration:</p>
+
+<pre><code data-language="ruby">def table_headers
+  column_attribute_map.keys
+end
+
+def attributes
+  column_attribute_map.values
+end
+</code></pre>
+
+<p>The identical implementations of those two methods in the two view classes calls for a refactoring, a superclass, so I create a CallReportSummaryTableView. Those methods can be defined once in that class and inherited. render_attribute is in the same boat, it&#8217;s implementation is:</p>
+
+<pre><code data-language="ruby">def render_attribute(symbol)
+   send(symbol)
+end
+</code></pre>
+
+<p>Formatted attributes that are shared between the two views, like :calls_per_click, can be implemented in the superclass view like:</p>
+
+<pre><code data-language="ruby">def calls_per_click
+  h.format_percentage(@model.calls_per_click)
+end
+</code></pre>
+
+<p>Formatted attributes specific to each leaf view class can implemented there.</p>
+
+<p>Note that the Draper gem generates an ApplicationDecorator class where general formatting methods, like format_percentage, can be defined. Using it, it&#8217;s likely you could bypass application-specific helpers entirely.</p>
+
+<pre><code data-language="ruby">def calls_per_click
+  format_percentage(@model.calls_per_click)
+end
+</code></pre>
+
+<h3>Conclusion</h3>
+
+<p>I don&#8217;t know if I performed any mind blowing feats here, but I feel good about this. It&#8217;s a bit cleaner, and my view code, previously in helpers, has a nice OO home now where I&#8217;ve already started to do some refactoring and code-sharing. In the template, I&#8217;m able to call display-related methods on the model, which feels more natural than invoking a detached helper method. But I don&#8217;t have to implement those display concerns in the model itself, where they don&#8217;t belong.</p>
+
+<p>All in all, I&#8217;m feeling confident that Draper is a crucial ingredient to good design. This feels less like a gem that provides some functionality, and more like an integral, missing piece of Rails to me.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/octopress-blog/blog/2012/02/02/customer-written-cukes/">Customer Written Cukes</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-02T00:00:00-05:00" pubdate data-updated="true">Feb 2<span>nd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>&#8230;and why they&#8217;re awesome. Or not.</h3>
+
+<p>On one of our more recent projects, we were given an entire suite of customer
+written <a href="http://cukes.info/">Cucumber</a> features. We&#8217;ve toyed with Cucumber in the past, but this
+was the first time we&#8217;ve actually implemented Cukes on a customer project. I
+thought I&#8217;d take a few minutes and explain some of the completely awesome side
+effects as well as the downsides.</p>
+
+<h4>First: The awesome.</h4>
+
+<p>The cukes were very well written. The last time I experimented with Cucumber,
+web steps were still in vogue and I was ready to start where I had left off.
+Fortunately, <a href="https://twitter.com/superchris" title="@superchris">Chris Nelson</a> was there to keep me from going down that path.
+He explained that the cukes were supposed to be written at a much higher level
+and that the implementation of the steps were better suited to handling the
+interactions with the specific inputs. It&#8217;s a good thing he did, too, or else I
+would have made a mess of steps that weren&#8217;t going to be solid or reusable.</p>
+
+<p>Second, the cukes contained some business logic in <a href="http://cukes.info/cucumber/api/ruby/latest/Cucumber/Ast/Table.html">AST
+tables</a>
+that turned out to be really super awesome when the time to implement the logic
+came around. The logic revolved around meeting some criteria then recommending
+a possible solution or enhancement. <a href="https://twitter.com/superchris" title="@superchris">Chris</a> and <a href="https://twitter.com/st23am" title="@st23am">James</a>
+were pairing on the project at the time and James mentioned that the tables
+looked a lot like <a href="http://en.wikipedia.org/wiki/Decision_tree">decision trees</a>
+in disguise. The dynamic duo spent some time looking at Ruby implementations of
+tree logic then decided that the rules weren&#8217;t quite as complex as the existing
+solutions and moved ahead writing their own.</p>
+
+<p>That turned out to be a really, really big win for this project. <a href="https://twitter.com/superchris" title="@superchris">Chris</a>
+and <a href="https://twitter.com/st23am" title="@st23am">James Smith</a> created a base class to handle the rule and
+conditional attributes, then for each specific case, we create a subclass to
+match the specific answers to the persistence layer.</p>
+
+<p><strong>Sample feature, with table</strong></p>
+
+<pre><code>Feature: Replace common areas lighting with high efficacy fixtures
+  So that I know which energy efficiency improvements my property would benefit
+  from, as a property owner/manager, I see a list of recommended measures for
+  my property after completing the property questionnaire.
+
+  Scenario Outline: Replace common areas lighting with high efficacy fixtures
+    Given I have completed the property questionnaire
+    And the predominant lighting type of permanently installed lighting fixtures in common areas is &lt;lighting_type&gt;
+    And on average, the common area lighting fixtures were last replaced &lt;last_replaced&gt;
+    And common area lighting fixture replacement &lt;planned_in_scope&gt; part of the planned retrofit scope
+
+    When I view the recommended measures for the property
+    Then the system shows that the "Replace common areas lighting with high efficacy fixtures" measure is &lt;result&gt;
+
+  Examples:
+    | planned_in_scope | lighting_type         | last_replaced | result          |
+    | is               | LED                   |               | recommended     |
+    | is               | Flourescent           |               | recommended     |
+    | is               | Screw-in CFL          |               | recommended     |
+    | is               | Screw-in incandescent |               | recommended     |
+    | is               | Don't know            | &gt;= 10 yrs ago | recommended     |
+    | is               | Don't know            | &lt; 10 yrs ago  | recommended     |
+    | is not           | LED                   |               | not recommended |
+    | is not           | Flourescent           |               | not recommended |
+    | is not           | Screw-in CFL          |               | recommended     |
+    | is not           | Screw-in incandescent |               | recommended     |
+    | is not           | Don't know            | &gt;= 10 yrs ago | recommended     |
+    | is not           | Don't know            | &lt; 10 yrs ago  | not recommended |
+</code></pre>
+
+<p><strong>The base class:</strong></p>
+
+<pre><code data-language="ruby">module RecommendedMeasure
+  class Measure
+
+    attr_reader :property
+
+    def initialize(property)
+      @property = property
+    end
+
+    def to_s
+      "This is a sample. You should replace this."
+    end
+
+    private
+
+    def build_rules(data)
+      keys = data.shift
+      keys.pop
+      data.map do |datum|
+        criteria = {}.with_indifferent_access
+        result = datum.unshift
+        keys.each_with_index {|key, index| criteria[key] = datum[index] }
+        Rule.new(self, criteria, datum.last == "recommended")
+      end
+    end
+
+    def rules_file
+      self.class.name.underscore + ".rules"
+    end
+
+    def rules_text
+      File.read(File.join(File.dirname(__FILE__), "..", rules_file))
+    end
+
+    def rules_data
+      rules_data = Cucumber::Ast::Table.parse(rules_text, "", 0).raw
+    end
+
+    def match?
+      self.build_rules(rules_data).each do |rule|
+        return rule.result if rule.applies?
+      end
+      false
+    end
+  end
+end
+</code></pre>
+
+<p><strong>A subclass:</strong></p>
+
+<pre><code data-language="ruby">module RecommendedMeasure
+  class ReplaceToilets &lt; Measure
+    def to_s
+      "Replace toilets"
+    end
+
+    def section
+      "efficiency"
+    end
+
+    def gal_flush
+      property.efficiency_responses[:toilet_gpf]
+    end
+
+    def last_replaced
+      installed_before?(:toilet_year, 1992) ? "&lt; 1992" : "&gt;= 1992"
+    end
+  end
+end
+</code></pre>
+
+<h4>The not-so-awesome.</h4>
+
+<p>One of the negatives we&#8217;ve encountered is the cone of focus can sometimes
+become too narrow. As a developer, heads down working on the cukes, some of the
+details of the implementation can be missed. For example, a few of the features
+were passing for me, but that&#8217;s because I&#8217;d manipulated the state of the data
+being tested in the step definition. I&#8217;d forgotten that when the client was
+doing physical acceptance those actions wouldn&#8217;t be available to them. I had to
+implement a scenario to allow the client to change the data so they could
+produce the correct result. It&#8217;s a trivial step, but an important one to
+remember nonetheless.</p>
+
+<p>In this particular case, the test was that a program expired after a certain
+date. We&#8217;d already constructed an administrative section of the application,
+but because I made the changes programmatically in the cuke, my tests passed. I
+delivered the feature for testing and got a message in Campfire a few minutes
+later that made complete sense: I can&#8217;t test this one because I can&#8217;t change
+the date!</p>
+
+<h3>Cukes are a win!</h3>
+
+<p>Overall, I&#8217;m impressed with the process of developing features using customer
+written cukes. Our client gave us an excellent starting point and it&#8217;s
+something we&#8217;re trying to teach existing clients now as well. They aren&#8217;t for
+everyone, but when the client has domain knowledge and is able to convey that
+in clearly written steps, it&#8217;s a big, big win.</p>
+
+<p>I&#8217;ve started using cukes in my pet projects as well. The steps are easy enough
+to write and if you&#8217;re already doing integration specs with something like
+Capybara, it seems like a worthwhile step.</p>
+
+<p>Another real benefit is the generated output.
+<a href="https://www.relishapp.com/">Relish</a> is a site for open source projects tested
+with Cucumber to host their docs. Some of Cucumber&#8217;s <a href="https://www.relishapp.com/cucumber/cucumber/docs/tag-logic">own
+documentation</a> is
+generated with Cucumber! You can also find
+<a href="https://www.relishapp.com/rspec">Rspec</a> there as well.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/octopress-blog/blog/2011/10/13/notes-from-cincijs-october--couchdb/">Notes From @cincijs: October – CouchDB</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-13T00:00:00-04:00" pubdate data-updated="true">Oct 13<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><a href="http://blog.cincijs.com/post/11409249034">Notes from @cincijs: October – CouchDB</a><br/><p><a href="http://blog.cincijs.com/post/11409249034" class="tumblr_blog">cincijs</a>:</p>
+
+<blockquote>
+<p>Here’s a link dump from this month’s meeting. I hope you’re all super exicted about building CouchApps!</p> <p>It was mentioned that it might be helpful to show a walkthrough of setting up a CouchApp. I’ll try to work on that and post something here.</p> <ul><li>
+<a href="https://github.com/andrewsardone/craftsmanguild-couchdb-talk/raw/master/slides.pdf">Slides</a> (courtesy <a href="http://twitter.com/andrewa2">@andrewa2</a>)</li>
+<li><a href="http://couchapp.org/page/index">Simple&#8230;</a></li></ul></blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/octopress-blog/blog/2011/10/06/world-congress-of-engineering-asset-management/">World Congress of Engineering Asset Management</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-06T00:00:00-04:00" pubdate data-updated="true">Oct 6<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>We have been working with <a href="http://assetricity.com/">Assetricity</a> implementing the <a href="http://www.mimosa.org/">MIMOSA</a> Common Conceptual Object Model information standard for operations and maintenance. This year the <a href="http://www.wceam.com/">WCEAM</a> was held here in Cincinnati. I was able to attend the Interoperability for Asset Management workshop for the last couple of days. While there we ratified the new 3.2.3 CCOM Markup Language standard I&#8217;ve been working on the last year or so.</p>
+<p>This project obviously has a lot of &#8220;big E&#8221; Enterprise baggage. The weight of that opening paragraph alone rekindles my rebellion from our corporate overlords. I&#8217;ve stuck with this project for several reasons though.</p>
+<p>First, it&#8217;s really hard. Asset management, maintenance, and condition monitoring are much more complicated than what I originally thought. It&#8217;s an incredibly broad field with many diverse needs across almost all industries. There have been many times when I thought, &#8220;there must be an easier way to do this.&#8221; However, after understanding more of the context I&#8217;ve often come around to understand why the complexity is needed. Even still it&#8217;s almost become a cliche to remark on how hard this project is.</p>
+<p>Second, the goal of the project is aimed squarely at interoperability. It hopes to chart a course through very difficult waters to unite many of the big players in the land of &#8220;big E&#8221;. Instead of staking out its turf and fighting to the bitter end, the project is trying to help companies get their heterogeneous environments to work together. From my early days working with (and on) Linux to focusing on open web standards, this is a goal I can easily get behind.</p>
+<p>In the Ruby (and also Agile) world we often talk about working in the Enterprise. <a href="http://www.vanderburg.org/blog">Glenn Vanderburg</a> has said, &#8220;The Enterprise isn&#8217;t ready for Ruby, it&#8217;s desperate for it.&#8221; After escaping the Enterprise, I&#8217;ve been very suspicious of working with it again. Frankly, I&#8217;ve passed on a couple projects that flew too close to the sun. This is a project though that allows me to push my ideals into the Enterprise. </p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/octopress-blog/blog/2011/10/04/configuring-ubuntu-1004-for-rails-development/">Configuring Ubuntu 10.04 for Rails Development</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-04T00:00:00-04:00" pubdate data-updated="true">Oct 4<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>While mentoring local high school students we needed to configure a number
+  of systems for <a href="http://rubyonrails.org/">Rails</a> development. <a
+    href="http://www.ubuntu.com/">Ubuntu</a> seemed to be the most reasonable
+  choice of OS. Below are the configuration steps we used broken into one-time
+  setup, repeatable demo app creation, and next steps.</p>
+
+<script src="https://gist.github.com/agilous/1261571.js"></script>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/octopress-blog/blog/2011/09/30/web-apps-are-dead-long-live-web-apps/">Web Apps Are Dead, Long Live Web Apps</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-30T00:00:00-04:00" pubdate data-updated="true">Sep 30<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I was at rubyconf today talking to a guy who hates building web apps.  I think a lot of developers feel this way, even a lot of web developers.  I know I did, to some degree, even though I would tell you (and believe that) deploying software as a web application is the best way to go for most cases.  What was interesting to me in talking to the guy were some of the reasons he gave:</p>
+<ul class="ul1"><li>Web apps are just way too chatty.  Every time I want to do anything it&#8217;s a round trip to the server to figure out what to do next</li>
+<li class="li1">Javascript is just such a horrible language.  It was some guys experiment that got shoved into the browser and now I have to use it.  I don&#8217;t have any choice in what language to use</li>
+</ul><p class="p1">These are rough paraphrases; hopefully the speaker, should he read this post, will forgive me.  But I think these are common reactions.  And if you read no further in this post, here&#8217;s the TL;DR: they <strong>no longer apply</strong>.  These reactions are based on the way we&#8217;ve built web apps for the past 10 years or so.  But now it is time to stop.  </p>
+<p class="p1">The chatty question first: the problem he alludes is one of the most limiting features about the way web apps used to be built.  Because the first version of the web is built around each user action resulting in an http request/response cycle, server frameworks were architected around this idea.  The server framework would handle each user action and send back a wad of html and javascript that would (hopefully) tell the browser what to do next.  Building interesting, usable applications this way is frustrating, to put it mildly.</p>
+<p class="p1">But of course AJAX came along to rescue us from all this.  So what, right?  AJAX is not new, it&#8217;s been mainstream for 5 years, at least.  But believe it not, it&#8217;s full potential is really just now starting to be realized.  The full potential is that it frees us from tying user actions to a request/response cycle.  But to realize this potential, we need to completely change the way we build web applications.  As in, throw away almost everything you knew, including (most of) your server side framework.  As in, if you&#8217;re building a web application with the existing &#8220;state of the art&#8221; approach, you are a writing instant legacy code.</p>
+<p class="p1">So what do we do?  It&#8217;s time to re-tool: that server side framework is on the wrong tier.  We need to move it to the client.  Backbone.js is the best client side MVC framework I&#8217;ve used, but there are certainly others.</p>
+<p class="p1">The next question: javascript.  While I disagree with this guy&#8217;s vehement hate, I can certainly understand the frustration.  Javascript has some excellent features, but it&#8217;s not my favorite language.  And the fact that I&#8217;m forced to use it makes me want to demand: FREEDOM! in a Mel Gibson painted half-blue and being sliced open kind of way.  I want to choose what language to use, and I want it to let me write expressive, beautiful code.</p>
+<p class="p1">And now I can, with coffeescript.  I really can&#8217;t overstate the effect this has had on my approach to web app development.  If I look back honestly, I&#8217;ve known for maybe years that I&#8217;m doing it wrong.  Even though I love my chosen server side language, Ruby, so very much, I could tell that trying to build the UI for my web apps in it just wasn&#8217;t working out.  I just couldn&#8217;t bring myself to totally embrace the javascript, though I tried (maybe a bit half-assedly).  But this changed completely with coffeescript.  I love the code I write in this language, and I can get behind it in a non-half-assed way.</p>
+<p class="p1">As you&#8217;ve probably picked up, I&#8217;m pretty passionate about this stuff.  Part of it is that I&#8217;m so pumped that I finally have good solutions to problems that have been vexing me for years.  But I also want to help others get on board.  A lot of folks already are, but if you&#8217;re not, or just want help getting there we got your back.  Gaslight Software is offering our training class, <a href="http://training.gaslightsoftware.com">Beautiful Front End Code with Backbone and Coffeescript</a> in San Francisco on November 7th and 8th.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/octopress-blog/blog/2011/09/23/the-last-battle-with-kalarel-in-keep-on-the-shadowfell/">The Last Battle With Kalarel in “Keep on the Shadowfell”. </a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-23T00:00:00-04:00" pubdate data-updated="true">Sep 23<span>rd</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><img src="http://24.media.tumblr.com/tumblr_lrzs0qlZB61qlk81uo3_1280.jpg"/>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/octopress-blog/blog/2011/09/13/new-signage/">New Signage!</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-13T00:00:00-04:00" pubdate data-updated="true">Sep 13<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><img src="http://24.media.tumblr.com/tumblr_lrh7ne1AGK1qlk81uo1_1280.png"/>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/octopress-blog/blog/2011/06/23/some-people-call-this-coffee-i-disagree/">Some People Call This “coffee.” I Disagree.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-06-23T00:00:00-04:00" pubdate data-updated="true">Jun 23<span>rd</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><img src="http://24.media.tumblr.com/tumblr_ln9ax2pjfL1qlk81uo1_1280.jpg"/>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+    <a href="/octopress-blog/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/octopress-blog/blog/page/5/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/02/08/9-lessons-web-designers-can-learn-from-painting-portraits/">9 Lessons Web Designers Can Learn from Painting Portraits</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/01/31/pi--rails--heroku--students--awesome/">(Pi + Rails + Heroku) * Students = Awesome</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/01/31/gaslight-podcast-10-corey-haines-via-codemash/">Gaslight Podcast #10: Corey Haines via CodeMash</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/01/28/objective-cs-designated-initializer-pattern/">Objective-C&#8217;s Designated Initializer Pattern</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/01/18/mobile-web-apps-are-we-there-yet/">Mobile Web Apps: Are We There Yet?</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Joel Turnbull -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

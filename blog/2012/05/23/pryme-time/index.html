@@ -1,0 +1,283 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Pryme Time - The Gas Leak</title>
+  <meta name="author" content="Joel Turnbull">
+
+  
+  <meta name="description" content="I&#8217;ve been trying to expand my ruby toolset. The other day I had thirty minutes to try out ruby-debug and failed. I couldn&#8217;t get it &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://gaslight.github.com/octopress-blog/blog/2012/05/23/pryme-time/">
+  <link href="/octopress-blog/favicon.png" rel="icon">
+  <link href="/octopress-blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/octopress-blog/javascripts/modernizr-2.0.js"></script>
+  <script src="/octopress-blog/javascripts/ender.js"></script>
+  <script src="/octopress-blog/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/octopress-blog/atom.xml" rel="alternate" title="The Gas Leak" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/octopress-blog/">The Gas Leak</a></h1>
+  
+    <h2>The Gaslighter Blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/octopress-blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:gaslight.github.com/octopress-blog" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/octopress-blog/">Blog</a></li>
+  <li><a href="/octopress-blog/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Pryme Time</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-23T00:00:00-04:00" pubdate data-updated="true">May 23<span>rd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I&#8217;ve been trying to expand my ruby toolset. The other day I had thirty minutes to try out ruby-debug and failed. I couldn&#8217;t get it operational, and I ended up <a href="http://blog.wyeworks.com/2011/11/1/ruby-1-9-3-and-ruby-debug">here</a> in a sad state of affairs. How could the ruby debugger be languishing in the latest ruby versions? I think last might I may have figured out why. The why is <a href="http://pry.github.com/">Pry</a>.</p>
+
+<h2>A Live State and Code Explorer</h2>
+
+<p>Calling up Pry reminded me of my sweet, sweet, beloved Smalltalk. If you&#8217;re not familiar, Smalltalk is a magical land of rainbows and hot-air balloons, where objects dance and sing, and you can munch bite-sized clouds of cotton-candy code all day long. Developing in Smalltalk, exploring the state and protocol of live objects is simple and embedded and constant. It&#8217;s all about digging in and discovery, and Pry lets you do that ( sans mouse to boot ).
+
+</p><h2>A Pry Story</h2>
+
+<p>I&#8217;m learning cucumber. I writing step definitions in this DSL and it feels a little like a foreign land. In my step definitions, I have objects like &#8220;page&#8221; available to me and I don&#8217;t even know what they are. And I wouldn&#8217;t care, until I&#8217;m trying test the contents of a Google calendar embedded in an iframe, complicated.</p>
+
+<p>So I want to explore &#8220;page&#8221;. I put the line below in my step definition:</p>
+
+<pre><code>pry page</code></pre>
+
+<p>Then, running cucumber invoked the Pry REPL:</p>
+
+<pre><code>pry(#&lt;Capybara::Session&gt;)&gt;</code></pre>
+
+<p>So it turns out &#8220;pages&#8221; are Cabybara::Sessions. What methods can I call on them?</p>
+
+<pre><code>pry(#&lt;Capybara::Session&gt;)&gt; ls</code></pre>
+
+<pre><code>Capybara::Session#methods: all  app
+attach_file  body  check  choose  cleanup!  click_button  click_link
+click_link_or_button  click_on  current_host  current_path  current_url
+document  driver  evaluate_script  execute_script  field_labeled  fill_in  find
+find_button  find_by_id  find_field  find_link  first  has_button?
+has_checked_field?  has_content?  has_css?  has_field?  has_link?
+has_no_button?  has_no_checked_field?  has_no_content?  has_no_css?
+has_no_field?  has_no_link?  has_no_select?  has_no_selector?  has_no_table?
+has_no_unchecked_field?  has_no_xpath?  has_select?  has_selector?  has_table?
+has_unchecked_field?  has_xpath?  html  inspect  mode  reset!  reset_session!
+response_headers  save_and_open_page  save_page  select  source  status_code
+text  uncheck  unselect  visit  wait_until  within  within_fieldset
+within_frame  within_table  within_window
+self.methods: __binding_impl__
+instance variables: @app  @document  @driver  @mode  @scopes
+locals: _  _dir_  _ex_  _file_  _in_  _out_  _pry_
+</code></pre>
+
+<p>(This actually looks like a Smalltalk class definition to me.)</p>
+<p>Browsing the protocol&#8230;&#8221;body&#8221; looks about right:</p>
+
+<div style="background: #ffffff; overflow:auto;width:auto;color:black;background:white;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">  pry(<span style="color: #808080">#&lt;Capybara::Session&gt;)&gt; body</span>
+    <span style="color: #303030">=&gt;</span> <span style="background-color: #fff0f0">"&lt;!DOCTYPE html&gt;</span><span style="color: #606060; font-weight: bold; background-color: #fff0f0">\n</span><span style="background-color: #fff0f0">&lt;html&gt;&lt;head&gt;</span><span style="color: #606060; font-weight: bold; background-color: #fff0f0">\n</span><span style="background-color: #fff0f0">&lt;meta http-equiv=</span><span style="color: #606060; font-weight: bold; background-color: #fff0f0">\"</span><span style="background-color: #fff0f0">Content-Type</span><span style="color: #606060; font-weight: bold; background-color: #fff0f0">\"</span><span style="background-color: #fff0f0"> content=</span><span style="color: #606060; font-weight: bold; background-color: #fff0f0">\"</span>...</pre></div>
+
+<p>That&#8217;s what I needed to get to. So in three quick steps I figured out:</p>
+
+<ol><li> the class of &#8220;page&#8221;
+  </li><li> what methods I could call on &#8220;page&#8221;
+  </li><li> the current state &#8220;page&#8221;
+</li></ol><h2>Coding Through Discovery</h2>
+
+<p>And that&#8217;s everything I wanted to know. The beautiful thing is that never did I have to scour through API documentation to figure out the the simplest use-cases for this class. The output is clean and the environment is optimized for discovery.</p>
+
+<p>I&#8217;m only scratching the surface here. As a runtime-invoked REPL and debugger, it&#8217;s certainly doing the trick. But I&#8217;ve gathered another huge part of what Pry provides is good tools for source and documentation browsing. Pry&#8217;s tagline is &#8220;Get to the code&#8221;.</p>
+
+<h2>Pry and Rails</h2>
+
+<p>You can use Pry in place of rails console by loading your rails app&#8217;s environment into Pry like:</p>
+<div style="background: #ffffff; overflow:auto;width:auto;color:black;background:white;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+  pry -r ./config/environment
+</pre></div>
+
+<p>I&#8217;m really interested in exploring the ability to call pry from within the context of a running Rails app. I&#8217;m not sure if this is a thing, it would be so helpful to pop up a pry REPL from, say, a controller action. Believe me, I&#8217;ve tried.</p>
+
+<p>Oh, and pry remembers my command history between sessions, *cough* irb.</p>
+
+<h2>Conclusion</h2>
+
+<p>I can&#8217;t speak to ruby-debug, maybe it does similar things, but I suspect the reason it failed to install for me is that everyone&#8217;s discovered Pry. You should too. Thanks @p9k for re-kindling my interest in this.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Joel Turnbull</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-23T00:00:00-04:00" pubdate data-updated="true">May 23<span>rd</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://gaslight.github.com/octopress-blog/blog/2012/05/23/pryme-time/" data-via="" data-counturl="http://gaslight.github.com/octopress-blog/blog/2012/05/23/pryme-time/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/octopress-blog/blog/2012/05/01/os-x-spring-nuking/" title="Previous Post: OS X Spring Nuking">&laquo; OS X Spring Nuking</a>
+      
+      
+        <a class="basic-alignment right" href="/octopress-blog/blog/2012/05/23/the-michigan-lean-startup-conference-an-attendees-perspective/" title="Next Post: The Michigan Lean Startup Conference: An Attendee's Perspective">The Michigan Lean Startup Conference: An Attendee's Perspective &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/02/08/9-lessons-web-designers-can-learn-from-painting-portraits/">9 Lessons Web Designers Can Learn from Painting Portraits</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/01/31/pi--rails--heroku--students--awesome/">(Pi + Rails + Heroku) * Students = Awesome</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/01/31/gaslight-podcast-10-corey-haines-via-codemash/">Gaslight Podcast #10: Corey Haines via CodeMash</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/01/28/objective-cs-designated-initializer-pattern/">Objective-C's Designated Initializer Pattern</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/01/18/mobile-web-apps-are-we-there-yet/">Mobile Web Apps: Are We There Yet?</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Joel Turnbull -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

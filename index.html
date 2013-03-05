@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>My Octopress Blog</title>
-  <meta name="author" content="Your Name">
+  <title>The Gas Leak</title>
+  <meta name="author" content="Joel Turnbull">
 
   
-  <meta name="description" content=" Blog Archives Recent Posts ">
+  <meta name="description" content="9 Lessons Web Designers Can Learn from Painting Portraits ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -24,7 +24,7 @@
   <script src="/octopress-blog/javascripts/modernizr-2.0.js"></script>
   <script src="/octopress-blog/javascripts/ender.js"></script>
   <script src="/octopress-blog/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/octopress-blog/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <link href="/octopress-blog/atom.xml" rel="alternate" title="The Gas Leak" type="application/atom+xml">
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -35,9 +35,9 @@
 
 <body   >
   <header role="banner"><hgroup>
-  <h1><a href="/octopress-blog/">My Octopress Blog</a></h1>
+  <h1><a href="/octopress-blog/">The Gas Leak</a></h1>
   
-    <h2>A blogging framework for hackers.</h2>
+    <h2>The Gaslighter Blog</h2>
   
 </hgroup>
 
@@ -65,7 +65,990 @@
       <div class="blog-index">
   
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/octopress-blog/blog/2013/02/08/9-lessons-web-designers-can-learn-from-painting-portraits/">9 Lessons Web Designers Can Learn From Painting Portraits</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-08T00:00:00-05:00" pubdate data-updated="true">Feb 8<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>9 Lessons Web Designers Can Learn from Painting Portraits</h2>
+
+<script async class="speakerdeck-embed" data-id="a8b97c6054380130178722000a1e8e84" data-ratio="1.33333333333333" src="/octopress-blog//speakerdeck.com/assets/embed.js"></script>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/octopress-blog/blog/2013/01/31/pi--rails--heroku--students--awesome/">(Pi + Rails + Heroku) * Students = Awesome</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-31T00:00:00-05:00" pubdate data-updated="true">Jan 31<span>st</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img style="width: 100%" src="http://media.tumblr.com/c0ba81d84eab0abef18a386253cc50da/tumblr_inline_mhg9mxCWxt1qz4rgp.png" alt="image"/></p>
+
+<h2 id="background">Background</h2>
+
+<p>Over the course of the past two school years, my colleague <a href="http://rabiedenharn.tumblr.com/">Rob Biedenharn</a> and I have been working with <a href="http://coachbrinkmann.tumblr.com/">Tom “Coach” Brinkmann</a>’s students at <a href="http://www.littlemiamischools.com/school_home.aspx?schoolid=1">Little Miami High School</a>, attempting to teach them Web development using Ruby on Rails to aid in their participation in <a href="http://www.bpa.org/">Business Professionals of America</a> competitions and to provide them with skills very much in demand locally.</p>
+
+<p>We supplied the students with <a href="http://coachbrinkmann.tumblr.com/day/2012/12/05">all the usual links</a> to facilitate self-guided learning on Windows PCs but it quickly became evident that we were facing two challenges:</p>
+
+<ol><li><p>Providing the students a development environment similar to what they will encounter in a professional setting.</p></li>
+<li><p>Maintaining student engagement.</p></li>
+</ol><p>After much trial and error, constrained primarily by the school’s existing Windows PC labs and no capital to change that fact, we were unable to avoid the fact that there is no substitute for a Unix-based operating system for hosting Rails projects.</p>
+
+<p>Having a development environment that closely resembles the production environment builds the developer’s competance and confidence in dealing with production system administration issues. Arguably, apps deployed to <a href="http://www.heroku.com/">Heroku</a> (a key component of the exercise below) are hosted in anything but a typical Linux environment. Nevertheless, despite Heroku’s best efforts (and we <em>LOVE</em> Heroku) most Rails apps running in the wild are hosted on “traditional” Linuxes.</p>
+
+<p>The ability to stand-up a development system for minimal cost was crucial to overcoming the second constraint above. This fact has been proven recently as more than 50 of Coach Brinkmann&#8217;s students, from Freshman to Seniors, created and deployed at least one Rails app to Heroku, and most completed two or more.</p>
+
+<p>Seeing an app run locally was interesting to the students. However deploying it to the Web and sharing it with family, friends and classmates who entered data from their computers and smart devices went far beyond interesting. The Raspberry Pi running an Open Source operating system (Debian Linux in our case) met that criteria perfectly.</p>
+
+<p>Below is the exercise that was recently assigned to each of Coach Brinkmann’s classes. Students were given 70 minutes of classroom time to complete it. Rob and I made ourselves available for assistance two evenings, and Rob went in once during normal school hours. At last report nearly all students had successfully completed their demo app and most had created at  least one other app of their own design. The fact that several students had an aptitude for creating Web apps was not lost on us.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<ul><li>You’ll need (to have access to) a Mac computer. If you’ve devised a mean of completing the steps below on a Windows PC then by all means <a href="mailto:bill@gaslight.co">email me!</a> With minimal modification, you can run this demo from an existing Linux PC but as a Linux user we trust you to already know this! :)</li>
+<li>Basic knowledge about <a href="http://linuxcommand.org/lts0020.php">command line navigation</a> in OSX or Linux will aid in comprehension of this guide.</li>
+<li>If you don’t already have one, you’ll need to <a href="https://api.heroku.com/signup">sign up for a Heroku account</a>.</li>
+</ul><h2 id="before-we-begin">Before We Begin…</h2>
+
+<p>If you don’t have a Pi, <a href="http://www.mcmelectronics.com/product/83-14421">get one</a>! If you have one but don’t have the operating system installed, grab this image and follow these instructions using a Mac or Linux computer that has an SD card reader embedded or attached:</p>
+
+<ol><li><p>Insert a <a href="http://www.amazon.com/gp/product/B007QOX5AU/ref=as_li_qf_sp_asin_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=B007QOX5AU&amp;linkCode=as2&amp;tag=billbarnettco-20">16GB SD card</a> in your Mac computer.</p></li>
+<li><p>Download <a href="http://dl.dropbox.com/u/1275806/rpi.img.gz">this disk image file</a>.</p></li>
+<li><p>Open a terminal window and change directory to the location into which you downloaded the disk image file above. Then expand the disk image file using this command:</p>
+
+<pre><code data-language="shell">gunzip rpi.img.gz</code></pre></li>
+<li><p>Enter this command to locate your SD card:</p>
+
+<pre>diskutil list</pre></li>
+<li><p>Run the command below to unmount but not eject your SD card. Note that the question mark (?) is the disk number which will be specific to your system.</p>
+
+<pre>diskutil unmountDisk /dev/disk?</pre></li>
+<li><p>Copy the disk image to your SD card by running the command below carefully substituting in the disk number obtained in the step above. Note that you will need run this command in the same directory where you downloaded and expanded the disk image file.</p>
+
+<pre>dd if=rpi.img bs=1m of=/dev/rdisk?</pre></li>
+</ol><p>There! You’re all set to proceed.</p>
+
+<p><strong>SECURITY WARNING!!</strong></p>
+
+<p>The disk image above contains ssh public keys for both Rob and me. This enables us to gain “emergency” access to a student’s system. If you do not wish for Rob or me to have access to your system you will need to run the following command on the system:</p>
+
+<pre>rm /home/pi/.ssh/authorized_keys</pre>
+
+<p><strong>WARNING!!!</strong>
+If you’re going to mess up, here are the likely culprits!</p>
+
+<ul><li>Your Pi needs Internet access to complete these tasks. Is the Ethernet cable plugged in?</li>
+<li>You’ll need to be patient! Don’t just start typing in commands and then hitting enter repeatedly. Wait for each command to finish running before proceeding.</li>
+<li>As an addendum to the previous tip, read the output returned after running each command and LOOK FOR ALL ERRORS.</li>
+<li>If there are errors, look for typos in the command you just entered. The last command you ran can be accessed by hitting the up arrow (ꜛ) key.</li>
+<li>Again, computers excel at reproducing errors. They’re junk in, junk out! Be careful you have entered each command exactly as it appears in the instructions below.</li>
+</ul><h2>1. Get Pi &amp; Login</h2>
+
+<p>Connect the Raspberry Pi to a monitor, keyboard, mouse, and network and plug in the power.</p>
+
+<pre>Username: pi
+Password: raspberry</pre>
+
+<p>Start the GUI</p>
+
+<pre>startx</pre>
+
+<h2>2. Start Terminal Session</h2>
+
+<p>Double click the LXTerminal icon on the desktop to open the terminal window. Enter the command below and look for the “Projects” directory.</p>
+
+<pre>ls</pre>
+
+<p>If no “Projects” directory make one and change into it:</p>
+
+<pre>mkdir -p Projects
+cd Projects</pre>
+
+<h2>3. Generate Skeleton Rails App</h2>
+
+<p>Enter the following command.</p>
+
+<pre>rails new grandchildren</pre>
+
+<p>Sit back and watch the magic of Ruby-on-Rails as a new (but empty) project is created in the Projects directory.</p>
+
+<pre>cd grandchildren
+rails server</pre>
+
+<p>Double click the Chromium browser link on the desktop. Visit the address: <a href="http://localhost:3000/">http://localhost:3000/</a>. (This link will only work if you’re reading these instructions on your Pi.)</p>
+
+<p>Once you’ve verified that the empty site displays properly (“Welcome aboard” will appear at the top of the page) you need to stop the server by hitting CTRL-C in the LXTerminal window.</p>
+
+<h2>4. Generate Resources &amp; Database</h2>
+
+<p><strong>STOP!</strong> Type the following line on the command line <strong>BUT DO NOT</strong> hit enter until the instructor or assistant has validated there are no errors/typos!</p>
+
+<pre>rails generate scaffold Offspring name state children:integer grandchildren:integer</pre>
+
+<p>Now run this command.</p>
+
+<pre>rake db:create db:migrate</pre>
+
+<p><strong>IF</strong> the migration fails, read the error message carefully. If you can fix things, just redo the migration part as the database file will already have been created.</p>
+
+<pre>rake db:migrate</pre>
+
+<p>Restart the server:</p>
+
+<pre>rails server</pre>
+
+<p>Refresh your browser. (And no change… but wait!)</p>
+
+<h2>5. User Experience!</h2>
+
+<p>Now visit:  <a href="http://localhost:3000/offsprings">http://localhost:3000/offsprings</a></p>
+
+<p>Enter a first record!</p>
+
+<p>Enter your paternal grandparents’ last name, first name and the state in which they had their kids. How many children did they have and how many grandchildren do they have?</p>
+
+<p>After creating that offspring record, hit “Back” (the link, not the browser button) to return to the list which now has one record.</p>
+
+<p>Then create the record for your maternal grandparents.</p>
+
+<p>Now that you can see a couple records, let’s get this application ready to deploy to the internet on <a href="http://www.heroku.com/">Heroku</a>.</p>
+
+<h2>6. Preparing to Deploy to Heroku</h2>
+
+<p>Install the Heroku Toolbelt on your Pi. This takes a while so we will let it run in a separate window as we edit some other files locally. After opening a new LXTerminal window, run:</p>
+
+<pre>wget -qO- <a href="https://toolbelt.heroku.com/install-ubuntu.sh"><a href="https://toolbelt.heroku.com/install-ubuntu.sh">https://toolbelt.heroku.com/install-ubuntu.sh</a></a> | sh</pre>
+
+<p>That’s “hyphen, Q, capital O, hyphen.”</p>
+
+<h2>7. Opening Emacs to Edit Files</h2>
+
+<p>There are just a few changes that need to be made in order to deploy your application to the Heroku service.</p>
+
+<ul><li>The database locally is SQLite3, but Heroku only supports PostgreSQL.</li>
+<li>The default index.html file needs to be removed.</li>
+<li>The Offspring list should be the default page for the application.</li>
+</ul><p>Let’s take these one at a time.</p>
+
+<p>Open Emacs (shortcut on the desktop) and choose “File&#160;» Open” and find the “Gemfile” in the project root which is Projects/grandchildren</p>
+
+<p>Where you see the line:</p>
+
+<pre>gem 'sqlite3'</pre>
+
+<p>We are going to change this to use SQLite3 in development and test environments (which are local to your Raspberry Pi) and PostgreSQL on production (which will be at Heroku).</p>
+
+<pre><code data-language="ruby">group :development, :test do
+  gem 'sqlite3'
+end
+
+group :production do
+  gem 'pg', require: false
+end
+</code></pre>
+
+<p>When you’re done making your changes, save them by choosing “File&#160;» Save” from the menu.</p>
+
+<p>We can’t build the pg gem on the Pi so we have to re-run the bundle install avoiding production.</p>
+
+<p><strong>IF</strong> you are in the wrong directory, change to the right one with:</p>
+
+<pre>cd ~/Projects/grandchildren</pre>
+
+<p>Then run this bundle command:</p>
+
+<pre>bundle install --without production</pre>
+
+<p>Go back to the command line and remove the index file.</p>
+
+<pre>rm public/index.html</pre>
+
+<p>Edit Rail’s routing file using Emacs choosing “File&#160;» Open” and selecting the “routes.rb” file within the config directory. Find the line:</p>
+
+<pre><code data-language="ruby"># root :to =&gt; 'welcome#index'</code></pre>
+
+<p>Change it to:</p>
+
+<pre><code data-language="ruby">root :to =&gt; 'offsprings#index'</code></pre>
+
+<p>Note that there are two (2) changes:</p>
+
+<ul><li>the ‘#’ at the beginning (which comments out the rest of the line) is removed</li>
+<li>‘welcome’ is replaced with ‘offsprings’</li>
+</ul><h2>8. To Heroku!</h2>
+
+<p>Replace the <strong>bold</strong> text below with your personal email address and name.</p>
+
+<pre>git init .
+git config --global user.email "**you@example.com**"
+git config --global user.name "**Your Name**"
+heroku login
+heroku keys:add</pre>
+
+<p>If you receive this message:</p>
+
+<pre>Could not find an existing public key.
+Would you like to generate one? [Yn]</pre>
+
+<p><strong>JUST HIT ENTER!</strong></p>
+
+<p>Then proceed with:</p>
+
+<pre>heroku apps:create --addons heroku-postgresql:dev</pre>
+
+<p>You will receive a response similar to:</p>
+
+<pre>Creating desolate-eyrie-5848... done, stack is cedar
+Adding heroku-postgresql:dev to desolate-eyrie-5848... done
+<a href="http://desolate-eyrie-5848.herokuapp.com/"><a href="http://desolate-eyrie-5848.herokuapp.com/">http://desolate-eyrie-5848.herokuapp.com/</a></a> | git@heroku.com:desolate-eyrie-5848.git
+Git remote heroku added</pre>
+
+<p>The output displays your application’s new URL, in the case above it is: <a href="http://desolate-eyrie-5848.herokuapp.com/."><a href="http://desolate-eyrie-5848.herokuapp.com/.">http://desolate-eyrie-5848.herokuapp.com/.</a></a> Your application will have some other name similar in format to “word-another-9999.”</p>
+
+<p>Next, commit your code (copy it up to your “production” site):</p>
+
+<pre>git add .
+git commit -m "this is my first commit EVAR"
+git push heroku master
+heroku run rake db:migrate
+heroku restart</pre>
+
+<p>Go to your bright shiny new Web app (the URL returned in the step above)!</p>
+
+<h2>9. Done? Logout and Shutdown!</h2>
+
+<p>Once you’ve entered some data in your new app and all the proper authorities have inspected your app for correctness simply enter the following command in the terminal window:</p>
+
+<pre>sudo /sbin/shutdown -h now</pre>
+
+<p>When the screen is blank AND ONLY when the screen is blank you may disconnect your power supply and remove your SD card.</p>
+
+<hr><h2 id="some-troubleshooting-tips">Some troubleshooting tips:</h2>
+
+<p>After making a change to your code:</p>
+
+<pre>git commit -am "your commit message"</pre>
+
+<p>After every single change you make to the code on your local system you’ll need to redeploy to Heroku:</p>
+
+<pre>git push heroku master</pre>
+
+<p>The app will be automatically (re)started so no need to run a separate ‘heroku restart’ command like was needed when a migration was run.</p>
+
+<h2 id="the-nuclear-option">The Nuclear Option!</h2>
+
+<p>If all else fails issue the command below and start again from Step #3:</p>
+
+<pre>cd ..
+rm -fr ~/Projects/grandchildren</pre>
+
+<p>Or a tactical strike to restart at Step #4:</p>
+
+<pre>rails destroy scaffold Offspring</pre>
+
+<p>If you run into problems with db:migrate or db:create, you can try this command:</p>
+
+<pre>rake db:reset</pre>
+
+<p>This will attempt to recreate the database file but should that fail, simply enter these two commands:</p>
+
+<pre>rm -f db/development.sqlite3 test.sqlite3
+rake db:create db:migrate</pre>
+
+<h2 id="wrap-up">Wrap-up</h2>
+
+<p>If you’re not the slightest bit curious about the magical commands you entered completing this tutorial then you’re done. Just remember yes, I would like fries with that. :)</p>
+
+<p><strong>However</strong> if you are curious then by all means I encourage you to fire up your Pi, login and explore. Your assignments are:</p>
+
+<ul><li><p>What is the purpose of this command? <code>man ls</code></p></li>
+<li><p>If there’s no manual entry for the <code>rails</code> command and I can use <code>rails --help</code> to get help for the rails command, what command can I use to determine which “version” of rails I’m currently running?</p></li>
+<li><p>What’s so special about the <code>root</code> user?</p></li>
+</ul><p>Most of all, have fun and let <a href="http://rabiedenharn.tumblr.com/">Rob</a> or <a href="mailto:bill@gaslight.co">me</a> know if we can be of any help!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/octopress-blog/blog/2013/01/31/gaslight-podcast-10-corey-haines-via-codemash/">Gaslight Podcast #10: Corey Haines via CodeMash</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-31T00:00:00-05:00" pubdate data-updated="true">Jan 31<span>st</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul><li><a href="https://s3.amazonaws.com/gaslight-podcasts/gaslight-podcast-010.mp3" rel="enclosure">Direct download</a></li>
+<li><a href="https://itunes.apple.com/us/podcast/gaslight-software-blog/id563643631">Subscribe with iTunes</a></li>
+<li><a href="http://feeds.feedburner.com/gaslightpodcast">Subscribe with RSS</a></li>
+</ul><p>Chris Nelson sat down with The Legend, Corey Haines at the CodeMash conference. Corey talks about what he&#8217;s learned from his pair programming tour across the country.  We also hear about his experience putting together a new video series called <a href="http://cleancoders.com/codecast/bawch-episode-1/show">Build An App with Corey Haines</a>.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/octopress-blog/blog/2013/01/28/objective-cs-designated-initializer-pattern/">Objective-C&#8217;s Designated Initializer Pattern</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-28T00:00:00-05:00" pubdate data-updated="true">Jan 28<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Out of the box in Objective-C you can initialize an instance of a class by
+  calling alloc and init on it.</p>
+
+<script src="https://gist.github.com/joelturnbull/4635006.js"></script>
+
+<p>Alloc allocates memory for the instance, and init gives it&#8217;s instance
+  variables it&#8217;s initial values. Both return pointers to the new
+  instance, hence the method chain. In this case, unless init was
+  re-implemented in the Party class, any instance variables in the party
+  instance were set to 0, or the zero pointer otherwise known as
+  nil.</p>
+
+<p>That&#8217;s no good. I am of the opinion that we should always strive to
+  create complete objects, i.e. objects who never have nil values for their
+  instance variables. In Objective-C there&#8217;s even a better reason for
+  doing this. in Objective-C a message sent to nil is silently ignored. An
+  unexpected nil value could create a debugging nightmare for
+  you.</p>
+
+<p>So how do we do initialize the variables? Here&#8217;s one way.</p>
+
+<script src="https://gist.github.com/joelturnbull/4634990.js"></script>
+
+<p>But that&#8217;s terrible. There&#8217;s danger in setting properties after
+  the fact. The user could fail to set the state of a vital instance variable,
+  and as the class designer, we&#8217;re not being good citizens. I can&#8217;t
+  really put it any better than Kent Beck does in &#8220;Smalltalk Best
+  Practice Patterns&#8221;.</p>
+
+<p>&#8220;what is the first thing you want to know about a class, once you’ve
+  decided it may do what you want it to do?  The first question is “what does
+  it take to create an instance?”  As a class provider, you’d like the answer
+  to this question to be as simple as possible. With the style described above,
+  you have to track down references to the class and read the code before you
+  get an inkling of how to create a useable instance.  If the code is complex,
+  it may take a while before you figure out what is required and what is
+  optional in creating an instance.&#8221;</p>
+
+<p>As class designers, we want to make sure there is method to represent each
+  valid way to create an instance. Beck describes the pattern as the
+  &#8220;Complete Creation Method&#8221;, Objective-C calls it
+  &#8220;Designated Initializer&#8221;.</p>
+
+<p>Maybe in the domain of our example, a party can be created and have a
+  default date if none is provided, and can have no attendees initially, but it
+  really must have a location or it just doesn&#8217;t make sense to create
+  it.</p>
+
+<script src="https://gist.github.com/joelturnbull/4634985.js"></script>
+
+<p>It could be there are times it makes sense to initialize the other values,
+  date and attendees. If we provided the protocol to do so the Party.h class
+  interface might look like this.</p>
+
+<script src="https://gist.github.com/joelturnbull/4634977.js"></script>
+
+<p>There are the four valid ways you can create a party. The trick is that only
+  one of these methods really sets the instance variables at the end of the
+  day. That method is called the Designated Initializer, and all other
+  initializers defer to it, directly or indirectly. Take a look at the
+  implementation.</p>
+
+<script src="https://gist.github.com/joelturnbull/4634948.js"></script>
+
+<p>In Party, <code>initWithLocation:date:attendees:</code> is the Designated Initializer. It
+  has parameters for the most important and frequently used instance variables
+  of Party. It is called from all of the other initializer methods. Those
+  methods make use of shared default settings where values are not passed
+  in.</p>
+
+<p>It is also possible that initializers could call initializers other than the
+  Designated Initializer to achieve the same effect. <code>initWithLocation:</code> could
+  defer to <code>initWithLocation:date:</code>  which would defer to
+  <code>initWithLocation:date:attendees:</code>. Regardless of whether <code>initWithLocation:</code>
+  defers to <code>initWithLocation:date:attendees:</code> directly or indirectly, all rounds
+  lead to the Designated Initializer.</p>
+
+<p>The Designated Initializer gives us a central point where modifications to
+  instance creation can happen, giving us the most control over how instances
+  are initialized. At the end of the deferment chain, there is only one method
+  that is responsible for setting the initial state of the object, and a
+  complete object comes out every time.</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/octopress-blog/blog/2013/01/18/mobile-web-apps-are-we-there-yet/">Mobile Web Apps: Are We There Yet?</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-18T00:00:00-05:00" pubdate data-updated="true">Jan 18<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>As a non-mac owner I remember seeing <a class="c1" href="http://www.youtube.com/watch?v=Jh2OVJjbKUI">this promotional video</a> from 37signals and feeling like I needed to buy a mac if I wanted to be a great Ruby programmer or web designer. In Ruby’s culture there is a strong preference for Apple products.</p>
+<blockquote>
+<div>
+<p>“The great thing about Ruby on the Mac is that it just feels like they fit together.”</p>
+<p>— DHH</p>
+</div>
+</blockquote>
+<p>Because of this preference there is a lot of crossover between the Ruby and the iOS world</p>
+<div><img alt="image" src="http://media.tumblr.com/7baaa76ec668072af581605d65d769c5/tumblr_inline_mgtsgmxJZA1r9fv8b.jpg"/></div>
+<p>I own a Mac Book Pro and an iPhone but I don’t feel loyalty to these products. The reason I became a web developer is because I love open source software and, on the web, open source is king. While everyone else was pirating Photoshop, I was writing Python scripts in Gimp. I ran <a class="c1" href="http://en.wikipedia.org/wiki/List_of_Ubuntu_releases#Ubuntu_4.10_.28Warty_Warthog.29">Warty Warthog</a> on my PC. I enjoyed a good game of <a class="c1" href="http://www.tauniverse.com/">Total Annihilation</a>. And although Gmail isn’t open source, web apps like this give Linux, Windows, and OSX users a certain independence from their operating systems that I enjoy</p>
+<p>Apple’s iPhone and iPad market share is impressive and I accept that the potential to make money on these devices is compelling, but on personal projects I am most excited about developing on the web where everyone (sort of) can access my software</p>
+<p>So with the neckbeard sentiment out of the way, I want to share what I’ve learned so far about developing mobile web apps. As I see it, there are three levels of appy-ness</p>
+<h2>Level 1 - Make It Fit On The Screen</h2>
+<p>Just throw a responsive framework on your site to make it look great on any size screen! <a class="c1" href="https://twitter.com/t_crayford/status/290989695754719233">Okay, that didn’t work</a>. Except for the demo sites for these libraries, I haven’t seen a responsive website yet that could just use a CSS framework without any manual tweaking. It’s time to dig into <a class="c1" href="http://www.w3.org/TR/css3-mediaqueries/">CSS media queries</a> so that people get a good experience on their phones as well as a computer monitor</p>
+<p>Even on this very simple stage of mobileness, new developers are going to be surprised to find that laying out your HTML views for mobile isn’t trivial. Take a look at this <a class="c1" href="http://lanyrd.com/2011/bd11/sccwh/">presentation deck</a> for a good primer</p>
+<h2>Level 2 - Minimize the Effects of Connection Latency With Asynchronous UIs</h2>
+<p>This is where I get really passionate about the design of applications. Maybe it’s because I’m impatient and I like fast UIs. <em>Maybe it’s because I used Lotus Notes for 5 years, an application which after 23 years of development still blocks the entire UI when fetching an email, rending all Notes application unusable if you happen to be on some abysmal guest wireless connection while tunneling through a VPN server in Tampa.</em> Yeah, it’s probably that.</p>
+<p>When I try out mobile web apps, this is where I see the biggest problems. When I first looked at PhoneGap, the top featured product was <a class="c1" href="http://phonegap.com/app/untappd/">Untapped</a>. The screenshots look great, but it feels like you’re just tapping around a very pretty web page when you use it. Tap the bottom navigation and you’ll see a spinner followed by a complete refresh of the page. User expectations for a native app are that the UI is always responsive and available, even if it needs to do something like fetch remote data. A refresh is a break in the experience, and a dead giveaway of the traditional web request cycle. For more of these issues also see <a class="c1" href="http://www.sencha.com/blog/the-making-of-fastbook-an-html5-love-story/">Sencha’ Blog post on Fastbook</a> where they demonstrate several places where Facebook’s native app loses state and local data when switching views</p>
+<div><img alt="image" src="http://media.tumblr.com/045b778e0ae7cbd7a4fb67ccc805e90f/tumblr_inline_mgts9umhmZ1r9fv8b.png"/></div>
+<p>For a web app to feel responsive one needs to make a huge shift away from simply rendering web pages after an HTML request. This means more responsibility on the client is required: client-side template rendering, local data caching, and optimistic responses to user actions. My favorite article covering these ideas is still <a class="c1" href="http://alexmaccaw.com/posts/async_ui">this one from Alex Maccaw</a>. Also check out <a class="c1" href="http://cheeaun.com/blog/2012/03/how-i-built-hacker-news-mobile-web-app_26">the second post about the creation of the Hacker News Web App</a>. Chee Aun has an awesome implementation of the HTML5 Application Cache that only downloads new assets if the application version has changed</p>
+<div><img alt="image" src="http://media.tumblr.com/9356a9d3792574581959072087b6204c/tumblr_inline_mgtse6HnAp1r9fv8b.png"/></div>
+<p>For me, the technologies that enable these asynchronous UIs are the most exciting things in software development today. Frameworks like Backbone.js and Ember.js, push events via Server Sent Events and Websockets, and all those fancy CSS3 tricks make developing fast webapps possible</p>
+<h2>Level 3 - Platform Integration</h2>
+<p>It won’t be too tough to get your app to fit on that tiny mobile screen and you’ll be able to make a lightning fast web app using rich client technologies. But when it comes to platform integration we’re a little stuck. If you want to take a photo, use the GPS, or run your app outside Mobile Safari, you’ll need to hunker down with some native code.</p>
+<p>It seems that the current sweet spot for cross-platform mobile apps is a hybrid web / native app. A hybrid app uses a native code wrapper around HTML web views, so that the majority of the functionality can be shared across different platforms. In this way, you can update your application and avoid the bureaucracy of an app store approval process. You can then fall back on native code for smooth animations, native-looking navigation, and access to proprietary APIs. LinkedIn has <a class="c1" href="http://venturebeat.com/2012/05/02/linkedin-ipad-app-engineering/">been very public about their hybrid web app</a> and although Google hasn’t said much about the new Gmail and Maps apps, it is clear that they are using HTML for most of their views</p>
+<h2>Are We There Yet?</h2>
+<p>If you want to make mobile apps with no compromises, you’ll want a completely native application on whatever platform you choose. Have fun with your piles of money and great user experiences</p>
+<p>If you need a cross platform app, you’ll benefit from liberal use of web views to minimize the amount of native code required on each platform. This is the approach I would use to create a practical web application that needs to work today.</p>
+<p>As tempting as Apple’s native world is, if you dream of <a class="c1" href="http://developer.chrome.com/apps/first_app.html">Chrome Apps</a>, <a class="c1" href="http://en.wikipedia.org/wiki/Canvas_element">Web Canvases</a>, and <a class="c1" href="http://www.html5rocks.com/en/tutorials/appcache/beginner/">App Cache Manifests</a> like I do, you’ll be <a class="c1" href="http://37signals.com/svn/posts/3269-behind-the-speed-basecamp-mobile">pushing the boundaries of the mobile web</a>.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/octopress-blog/blog/2013/01/17/gaslight-podcast-9-digital-doodles-with-ryan-arthur/">Gaslight Podcast #9: Digital Doodles With Ryan Arthur</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-17T00:00:00-05:00" pubdate data-updated="true">Jan 17<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class="post_content clearfix" id="post_content_38982019788">
+<div class="post_text_wrapper">
+<ul><li><a href="https://s3.amazonaws.com/gaslight-podcasts/gaslight-podcast-009.mp3" rel="enclosure">Direct download</a></li>
+<li><a href="https://itunes.apple.com/us/podcast/gaslight-software-blog/id563643631">Subscribe with iTunes</a></li>
+<li><a href="http://feeds.feedburner.com/gaslightpodcast">Subscribe with RSS</a></li>
+</ul><p><span>This week we recorded the Podcast at Kevin&#8217;s house with our past design intern and now newest full-time hire, Ryan Arthur. In this episode we talk about learning with digital doodles, HAML &amp; SASS, responsive designs, the importance of user experience design over aesthetic design, and how to find a design job you&#8217;ll love.</span></p>
+<ul><li><span><a href="https://github.com/arthurra">Ryan on Github</a></span></li>
+<li><a href="http://codepen.io/arthurra">Ryan&#8217;s sliding search thingy on CodePen</a></li>
+</ul></div>
+</div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/octopress-blog/blog/2013/01/11/ember-resources/">Ember Resources</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-11T00:00:00-05:00" pubdate data-updated="true">Jan 11<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I&#8217;ve heard lots of good noises coming from the Ember camp lately, so I started diving in a couple weeks ago. I&#8217;m really excited with what I&#8217;ve seen, but getting started is still harder than it should be. The documentation is improving rapidly, but it was still difficult to get over the initial hump. We&#8217;re super lucky to have <a href="https://twitter.com/workmanw">@workmanw</a> here in town. He&#8217;s a Sproutcore veteran and Ember promoter who&#8217;s also been really helpful with questions we&#8217;ve had along the way. I also compiled this list of what I found to be the most helpful.</p>
+
+<h2>Videos</h2>
+
+<h3>Yehuda&#8217;s Talk at Seattle Ember</h3>
+
+<iframe width="100%" height="315" src="http://www.youtube.com/embed/4Ed_o3_59ME" frameborder="0" allowfullscreen></iframe>
+
+<p>Yehuda waxes philosophical on the topics of convention vs. configuration and how the new and improved router works.</p>
+
+<h3>Tom&#8217;s Talk at Seattle Ember</h3>
+
+<iframe width="100%" height="315" src="http://www.youtube.com/embed/_6yMxU-_ARs" frameborder="0" allowfullscreen></iframe>
+
+<p>Tom covers <a href="https://github.com/ember/data">Ember Data</a>. Data is exciting because it&#8217;ll abstract away lots of work that gets duplicated on most projects.</p>
+
+<h3>Intro to Ember</h3>
+
+<iframe width="100%" height="315" src="http://www.youtube.com/embed/hod-KX81i7s" frameborder="0" allowfullscreen></iframe>
+
+<h3>Testing Ember Apps</h3>
+
+<iframe width="100%" height="315" src="http://www.youtube.com/embed/tcdZFA5CMCk" frameborder="0" allowfullscreen></iframe>
+
+<h2>Articles</h2>
+
+<h3><a href="http://trek.github.com/">Advice on &amp; Instruction in the Use Of Ember.js</a></h3>
+
+<p>Trek has been killing it on the documentation lately. He&#8217;s responsible for a lot of the new guide content on <a href="http://emberjs.com">http://emberjs.com</a>. This post was super helpful starting from nothing and building a super simple Ember app.</p>
+
+<h3><a href="http://www.adobe.com/devnet/html5/articles/flame-on-a-beginners-guide-to-emberjs.html">Flame on! A beginner&#8217;s guide to Ember.js</a></h3>
+
+<p>Another great article walking through complex concepts from beginning to end.</p>
+
+<h3><a href="https://gist.github.com/3981133">It all begins with Templates</a></h3>
+
+<p>Tom&#8217;s intro to new router syntax.</p>
+
+<h3><a href="http://www.thesoftwaresimpleton.com/blog/2012/04/03/testing-ember-and-the-runloop/">Testing and the Run Loop</a></h3>
+
+<h3><a href="http://reefpoints.dockyard.com/ember/2013/01/07/building-an-ember-app-with-rails-api-part-1.html">Building an Ember app with Rails</a></h3>
+
+<h2>Guides</h2>
+
+<ul><li><a href="http://emberjs.com/guides/">Ember Guides</a></li>
+<li><a href="http://emberjs.com/api/">Ember API</a></li>
+</ul><h2>Code Samples</h2>
+
+<ul><li><a href="https://github.com/dgeb/ember_data_example">Ember Contacts</a></li>
+<li><a href="https://github.com/trek/ember-todos-with-build-tools-tests-and-other-modern-conveniences">TodosMVC with lots of awesome</a></li>
+</ul><p>Good luck! I&#8217;m <a href="https://twitter.com/cdmwebs">@cdmwebs</a> on Twitter. Feel free to reach out if you need some help!</p>
+
+<p>Edit: added link from <a href="https://twitter.com/janders223">@janders223</a>. Thanks!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/octopress-blog/blog/2013/01/08/how-i-sold-gaslight-on-our-new-brand/">How I Sold Gaslight on Our New Brand</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-08T00:00:00-05:00" pubdate data-updated="true">Jan 8<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img alt="image" src="http://media.tumblr.com/bd2b00839356c9caf41383514d3a681a/tumblr_inline_mg881bEX2r1r9fv8b.png"/></p>
+
+
+
+<p>The scariest task to be given to a brand new designer on a first day: “Rebrand our company”. Even scarier? There is no one decision maker. So began the Gaslight rebranding!</p>
+
+
+
+<p>A little backstory. Before I began at Gaslight, I had interned with 4 graphic design firms. Each had different emphasis, from Pampers packaging to doing the field wall for the Orange Bowl. The one thing in common with all of these places was that design was the emphasis. We didn’t worry about how anything worked, just that it was designed on the surface. Gaslight is different. But that’s another blogpost, for another day.</p>
+
+
+
+<p>So back to the challenge at hand: a rebrand. Something I had experience in school, but never in the real world. I was confident I could produce the work, but I encountered a new obstacle: at every point of the process, I was selling the idea of a brand to the company, and it was not always easy. First off, I had to grasp that I’m not the intern anymore, nor am I a junior designer (aka glorified intern). I’m in charge, and have to trust my instincts. I get to put my stamp on things, I get to be involved, I feel like I’m making a real impact right away. I had a group of people that was ready… ok kinda ready, to open their company up to a new approach. I was up for the challenge, and after a bumpy start, finally got the design and opinions moving in the right direction.</p>
+
+
+
+<p>Now the good stuff.</p>
+
+
+
+<h2>A Little About a Logo</h2>
+
+<p></p>
+
+<p><a href="http://media.tumblr.com/fd1bab1b841e5677a36d52d2427b4204/tumblr_inline_mg4blk7WcX1r9fv8b.png"><img alt="image" class="left-image" style="margin-right:20px" src="http://media.tumblr.com/51bbdec7cff36b4244809a8e08b3055b/tumblr_inline_mg4bkuLvIG1r9fv8b.png"/></a></p>
+
+
+
+<p>What do I think a logo is? The “face of your company”, what people see on a site, on a card that represents your company. It can be as simple as swoosh, or as hated a square with the word “Gap” written next to it. Once the name Gaslight was settled on, I began the process of creating a logo for the company. I’m traditional and I like to start with paper sketches. I often find my thoughts more confined when I first begin on the computer. With pen and paper, I have the ability to get a lot of ideas out quickly. No matter how much of a hurry I am in, for logo or a UI, I always start this way because the end product is always more well thought-out.</p>
+
+
+
+<p>Next, I picked a few sketches and started to digitalize them, still playing with forms and typefaces. At this point, everything is in black and white as well. I also made the decision to move away from the flame icon. It’s a fine icon, but it’s so hard to come up with an ownable mark that is a flame. The company was split, some wanted a flame reference, some wanted something new. Happily for me, a very geometric and different direction was chosen.</p>
+
+
+
+<div class="group"><a href="http://media.tumblr.com/e840caddab1fa37ea361d2824a2ea112/tumblr_inline_mg47izMhFC1r9fv8b.jpg"> <img alt="image" class="left-image" style="border: 1px solid gray" src="http://media.tumblr.com/b9e9f1ca9782f815dbb675616d3d601d/tumblr_inline_mg47i2Ko6O1r9fv8b.png"/></a> <a href="http://media.tumblr.com/c593b3c2e96e80f846c80526133e2e76/tumblr_inline_mg47jtZeCs1r9fv8b.jpg"> <img alt="image" class="left-image" style="border: 1px solid gray" src="http://media.tumblr.com/26b274eb018ccb279c5ff8486c0c577d/tumblr_inline_mg47k0kV7L1r9fv8b.png"/></a> <a href="http://media.tumblr.com/09eb706487ba04f2ddb90df6a9be9ca3/tumblr_inline_mg47k77aj21r9fv8b.jpg"> <img alt="image" class="left-image" style="border: 1px solid gray" src="http://media.tumblr.com/65c49faafd66f3489be525e23cfaa95c/tumblr_inline_mg47ke0Pwr1r9fv8b.png"/></a> <a href="http://media.tumblr.com/a934ae1174fe2e3973462b26c5cc32f7/tumblr_inline_mg47kkUSvN1r9fv8b.jpg"> <img alt="image" class="left-image" style="border: 1px solid gray" src="http://media.tumblr.com/b50e7df6980d4c1ea179d7a5277c86aa/tumblr_inline_mg47kpY9FU1r9fv8b.png"/></a> <a href="http://media.tumblr.com/e9f26427d07f634bc57900b16d7600dd/tumblr_inline_mg47kv3xTA1r9fv8b.jpg"> <img alt="image" class="left-image" style="border: 1px solid gray" src="http://media.tumblr.com/026158c99de047cb6688a5954389b7f1/tumblr_inline_mg47l11oSm1r9fv8b.png"/></a></div>
+
+<p></p>
+
+<p>The original idea of the mark came from playing with &lt;brackets&gt;, which are an integral part of the coding process. As I moved things around, I eventually settled on this strong mark, that resembled an abstracted gaslight. When I create a logo, it’s really important to me that it can stand on it’s own. It doesn’t need colored shapes behind it, it reads just as fine from 20 feet away and at 1 inch high. This mark is tough, and can stand up being put on a busy background. With this strong basis, I have more freedom to play with supporting elements.</p>
+
+
+
+<p>Once the mark was drawn, I moved onto choosing a typeface. In case you’re curious, we chose DIN, a wonderful sans serif, with a little flair on the letters. We can’t be boring. I set the name in all caps to get those straight lines across, reinforcing the geometric qualities.</p>
+
+
+
+<p>The colors? There is where I have a little less reasoning. There is so much blue out in the tech world, and I wanted to show we were different. The pop-y, primary colors allowed a sense of whimsy into our otherwise very geometric mark. We are a creative bunch, and I wanted to show that off.</p>
+
+
+
+<p>So, we have a gaslight, rendered in a strong geometric form. It’s a little playful, but still strong and established, like the company it&#8217;s representing. Boom, logo.</p>
+
+
+
+<p>Done? Not at all. I&#8217;ll have to admit, many were underwhelmed at the new company logo and held onto the old flame.</p>
+
+
+
+<p><strong>Buy-in factor: Low</strong></p>
+
+
+
+<h2>Building a Brand</h2>
+
+<p></p>
+
+<p>At this point we had a logo. That’s it. A logo doesn’t create an experience: a brand does. We forged forward creating elements that could be used to create a look that could elevate the logo and represent the team. How we treat type, how we use the brand colors, using photography and texture, copy, all of this fuels a brand experience. This was done by exploring how our brand stood in print, in the environment, and of course digitally.</p>
+
+
+
+<h2>In Print</h2>
+
+<p></p>
+
+<p>The first thing that really had some “brand” to it was our business card. Yes there was the logo, but the type treatment, cut corner, and graphic on the front all elevated elements of the logo and creates an experience. I was starting to establish the feel of our brand, and how we were perceived beyond a logo.</p>
+
+
+
+<div style="width:100%; text-align:center; margin: 20px 0px 20px 0px"><a href="http://media.tumblr.com/813e6771f8e74e0e9de26c62fa1f08f7/tumblr_inline_mg4e1wQGwK1r9fv8b.png"><img alt="image" src="http://media.tumblr.com/813e6771f8e74e0e9de26c62fa1f08f7/tumblr_inline_mg4e1wQGwK1r9fv8b.png"/></a></div>
+
+<p></p>
+
+<p>Another thing on the top of the list was a postcard to announce the new and improved Gaslight. It was meant to spark an interest in how we are different&#8230; we’re bigger and better. It was also our first crack at copy-writing in our brand voice. We wanted the voice to be fun and conversational. We’re more than faceless people; We’re trying to have fun with who we are with some customized code.</p>
+
+
+
+<p>This was the first turning point, when the Gaslight team realized that there is more to this than a logo. There was a voice behind us, and a distinct style. I was starting to get some thumbs up where before I got frowns.</p>
+
+
+
+<p><strong>Buy-in factor: Medium</strong></p>
+
+
+
+<h2>Environment</h2>
+
+<p></p>
+
+<p>At the same time all this was occurring, our office-mates at Neo headed out to their new pad. We were left with a ton of space and a lot of white walls. White is boring, and we’re not a boring group of people. Brands don’t have to live on a computer or on a piece of paper, it can be alive in the environment. Big agencies have a branded area where people have an experience when they walk in. Why couldn’t we do that? I had a branded space vision, but when the black chalkboard paint went up on the first wall, it wasn&#8217;t looks of joy that I saw. As we painted the back of the room grey, another eye-browing raising choice at first, and moved onto our old blue wall, there began the “you know, I really like this.” Gaslight went from scared of the black and grey, to wanting to paint the whole place.</p>
+
+
+
+<div style="width:100%; text-align:center; margin: 20px 0px 20px 0px"><a href="http://media.tumblr.com/26ac521c62779608b723c67daa7df977/tumblr_inline_mg87epzEt81r9fv8b.jpg"> <img alt="image" src="http://media.tumblr.com/cba9f12d784af9a84e2874a5b7571aec/tumblr_inline_mg86ufw2ez1r9fv8b.jpg"/></a></div>
+
+<p></p>
+
+<p>It wasn’t just paint. We created a sitting, creative area around the chalkboard wall for brainstorms. It’s fun to get your hands dirty sometimes! We finished off one of the grey walls with icons and quotes representing Gaslight, and stuck a giant logo in our front room, as well as our door.</p>
+
+
+
+<div class="group"><a href="http://media.tumblr.com/1deee522d8c17b039c1483db0ea3868b/tumblr_inline_mg87b6XzXB1r9fv8b.jpg"> <img alt="image" class="left-image" src="http://media.tumblr.com/cbff6515a075b65ed48eda518f6c9f16/tumblr_inline_mg86hsM1NA1r9fv8b.jpg"/></a> <a href="http://media.tumblr.com/f370ca9dbe2b4c8905a03f33b0a507da/tumblr_inline_mg86u0PxvN1r9fv8b.jpg"> <img alt="image" class="left-image" src="http://media.tumblr.com/6dcc0539407510559544ff6bc299e06f/tumblr_inline_mg86mz9iqp1r9fv8b.jpg"/></a> <a href="http://media.tumblr.com/cbd8d75de28daf06fa5bcce9c6dbe09c/tumblr_inline_mg86kei3so1r9fv8b.jpg"> <img alt="image" class="left-image" src="http://media.tumblr.com/a6e6c506ea92a9381a5d093d9b0d02fe/tumblr_inline_mg86in5BVu1r9fv8b.jpg"/></a></div>
+
+<p></p>
+
+<p>So after a step back at first, the painting ended up being a huge step forward in terms of brand confidence. I think at this point, even if there were little things some team members didn’t like, overall it was getting the greenlight from everyone.</p>
+
+
+
+<p><strong>Buy-in factor: High</strong></p>
+
+
+
+<h2>Web</h2>
+
+<p></p>
+
+<p>We&#8217;re a company that puts out a digital product, so of course web presence is important. All of this preliminary work affected how I’ve approached the design of the <a href="http://gaslight.co">website</a>, and designing the <a href="http://gaslight.co">website</a> has made me rethink some aspects of the preliminary pieces. Let me explain. When we first put up a landing page to replace the old Gaslight Software site, it was right in the beginning, and by beginning, I mean we had the logo. I wasn’t sure what exactly our brand looked like yet. So we put something up that worked for the time being. As I started working out the print pieces and the environment, I realized the landing page wasn’t conveying the mood for the direction we had moved in.</p>
+
+
+
+<p>When I first started the site design, my main concept was a sense of guidance. We’re lighting your path. I loved this idea of having this glowing gaslight, which can help guide you on the right way for your project. I ran with this concept, playing up color separation and linear elements. After a couple weeks of feeling like the design wasn’t right, I stepped back and thought “How does this display on mobile?” Constrained by this, it actually helped me distill what I wanted to show, and what was most important. It was a turning point, and things flowed into place.</p>
+
+
+
+<div style="width:100%; text-align:center; margin: 20px 0px 20px 0px"><a href="http://gaslight.co"> <img alt="image" src="http://media.tumblr.com/37a1d3478b62e81204928d4929b1014f/tumblr_inline_mg87ufrvbY1r9fv8b.jpg"/></a></div>
+
+<p></p>
+
+<p>Like the brand, the <a href="http://gaslight.co">website</a> is meant to change and evolve. It’s a 1.0. I’m already thinking up ideas for the 1.2 and 2.0, but the groundwork is there. We have a solid direction, for the <a href="http://gaslight.co">website</a> and for the whole brand. It’s just time to keep building.</p>
+
+
+
+<p><strong>Buy-in factor: Gaslighters are proud to show off the brand</strong></p>
+
+
+
+<h2>Conclusion</h2>
+
+<p></p>
+
+<p>At the point I’m writing this, it’s been 6 months. That’s nothing in the corporate world I know, but it’s the perfect amount of time for a small business. I feel like as the brand was accepted, I was accepted into the Gaslight family. They have taught me so much by this experience, and I think I’ve taught them a thing or two on how branding can really elevate a business.</p>
+
+
+
+<p>Over the past month or so, I’ve really firmed up how our brand is moving forward. There is a continuity between our office decorations to our <a href="http://gaslight.co">website</a> (woo plug), and that is what makes a brand. Hopefully you stick around with us, and watch our brand live and change!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/octopress-blog/blog/2012/12/27/gaslight-podcast-8-girl-develop-it/">Gaslight Podcast #8: Girl Develop It</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-27T00:00:00-05:00" pubdate data-updated="true">Dec 27<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class="post_content clearfix" id="post_content_37832564149">
+<div class="post_text_wrapper">
+<ul><li><a href="https://s3.amazonaws.com/gaslight-podcasts/gaslight-podcast-008.mp3" rel="enclosure">Direct download</a></li>
+<li><a href="https://itunes.apple.com/us/podcast/gaslight-software-blog/id563643631">Subscribe with iTunes</a></li>
+<li><a href="http://feeds.feedburner.com/gaslightpodcast">Subscribe with RSS</a></li>
+</ul><p>We met with Sara Chipps and Erin Kidwell to talk about <a href="http://girldevelopit.com/">Girl Develop It</a>, an organization that holds classes and events for developers and aspiring developers. In this episode we talk about how Girl Develop It spread across the country with sold out classes in only 2 years. Also we discuss creating an inclusive atmosphere and what makes a great teacher.</p>
+</div>
+</div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/octopress-blog/blog/2012/12/20/seasons-greetings-from-your-friends-at-gaslight/">Seasons Greetings From Your Friends at Gaslight!</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-20T00:00:00-05:00" pubdate data-updated="true">Dec 20<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="http://media.tumblr.com/9a4a450a55f0879fed764d37e1fb83c4/tumblr_inline_mfcxy1cIrZ1qzr515.jpg" alt=""/></p>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
+    
+      <a class="prev" href="/octopress-blog/blog/page/2/">&larr; Older</a>
     
     <a href="/octopress-blog/blog/archives">Blog Archives</a>
     
@@ -76,6 +1059,26 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/02/08/9-lessons-web-designers-can-learn-from-painting-portraits/">9 Lessons Web Designers Can Learn from Painting Portraits</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/01/31/pi--rails--heroku--students--awesome/">(Pi + Rails + Heroku) * Students = Awesome</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/01/31/gaslight-podcast-10-corey-haines-via-codemash/">Gaslight Podcast #10: Corey Haines via CodeMash</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/01/28/objective-cs-designated-initializer-pattern/">Objective-C&#8217;s Designated Initializer Pattern</a>
+      </li>
+    
+      <li class="post">
+        <a href="/octopress-blog/blog/2013/01/18/mobile-web-apps-are-we-there-yet/">Mobile Web Apps: Are We There Yet?</a>
+      </li>
     
   </ul>
 </section>
@@ -91,7 +1094,7 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - Your Name -
+  Copyright &copy; 2013 - Joel Turnbull -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
